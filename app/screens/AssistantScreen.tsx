@@ -1,12 +1,8 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 const GREEN = '#3dbf6e';
-const GREEN_LIGHT = '#e8f8ef';
 const ORANGE = '#f5a623';
-const GRAY_BG = '#f5f5f5';
-const GRAY_BAR = '#e0e0e0';
-const YELLOW_BG = '#fff9e6';
 
 const mockAccount = {
   name: 'My salary account',
@@ -41,7 +37,7 @@ const mockInsights = [
     category: 'Week 16',
     date: '18 April',
     message: "You've spent 1,240 kr on food & drinks this week — 15% less than last week.",
-    bg: YELLOW_BG,
+    bg: '#fff9e6',
     accentAmount: null,
   },
   {
@@ -50,7 +46,7 @@ const mockInsights = [
     category: 'Monthly summary',
     date: '1 April',
     message: "You saved 2,100 kr last month. That's your best month this year!",
-    bg: GREEN_LIGHT,
+    bg: '#e8f8ef',
     accentAmount: '2,100 kr',
   },
 ];
@@ -58,8 +54,11 @@ const mockInsights = [
 function ProgressBar({ value, max, color }: { value: number; max: number; color: string }) {
   const pct = Math.min(value / max, 1);
   return (
-    <View style={styles.barTrack}>
-      <View style={[styles.barFill, { width: `${pct * 100}%`, backgroundColor: color }]} />
+    <View className="h-2 bg-[#e0e0e0] rounded-full overflow-hidden">
+      <View
+        className="h-full rounded-full"
+        style={{ width: `${pct * 100}%`, backgroundColor: color }}
+      />
     </View>
   );
 }
@@ -69,12 +68,16 @@ function formatKr(n: number) {
 }
 
 function InsightMessage({ message, accent }: { message: string; accent: string | null }) {
-  if (!accent) return <Text style={styles.insightMessage}>{message}</Text>;
+  if (!accent) {
+    return (
+      <Text className="text-[15px] font-bold text-[#111] leading-[22px]">{message}</Text>
+    );
+  }
   const parts = message.split(accent);
   return (
-    <Text style={styles.insightMessage}>
+    <Text className="text-[15px] font-bold text-[#111] leading-[22px]">
       {parts[0]}
-      <Text style={styles.insightAccent}>{accent}</Text>
+      <Text className="text-[#3dbf6e]">{accent}</Text>
       {parts[1]}
     </Text>
   );
@@ -85,26 +88,26 @@ export default function AssistantScreen() {
   const overallBudget = mockChallenge.periods.reduce((sum, p) => sum + p.budget, 0);
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView className="flex-1 bg-[#f5f5f5]" contentContainerClassName="p-4 pb-8">
       {/* Account pill */}
-      <View style={styles.accountPill}>
+      <View className="bg-[#3dbf6e] rounded-xl px-4 py-3 flex-row justify-between items-center mb-3">
         <View>
-          <Text style={styles.accountName}>{mockAccount.name}</Text>
-          <Text style={styles.accountBank}>{mockAccount.bank}</Text>
+          <Text className="text-white font-semibold text-sm">{mockAccount.name}</Text>
+          <Text className="text-white/80 text-xs">{mockAccount.bank}</Text>
         </View>
-        <Text style={styles.accountBalance}>{mockAccount.balance}</Text>
+        <Text className="text-white font-bold text-base">{mockAccount.balance}</Text>
       </View>
 
       {/* Challenge card */}
-      <View style={styles.card}>
-        <Text style={styles.cardMonth}>{mockChallenge.month}</Text>
-        <Text style={styles.challengeAmount}>{mockChallenge.remaining}</Text>
-        <Text style={styles.challengeSub}>
+      <View className="bg-white rounded-[14px] p-4 mb-5 shadow-sm">
+        <Text className="text-lg font-bold mb-1.5">{mockChallenge.month}</Text>
+        <Text className="text-[28px] font-bold text-[#3dbf6e] mb-0.5">{mockChallenge.remaining}</Text>
+        <Text className="text-[13px] text-[#555] mb-3">
           Remaining of your{' '}
-          <Text style={styles.bold}>{mockChallenge.total} Challenge</Text>
+          <Text className="font-bold text-[#222]">{mockChallenge.total} Challenge</Text>
         </Text>
 
-        <View style={styles.overallBarRow}>
+        <View className="mb-[14px]">
           <ProgressBar value={overallSpent} max={overallBudget} color={GREEN} />
         </View>
 
@@ -112,12 +115,12 @@ export default function AssistantScreen() {
           const isOver = p.status === 'over';
           const color = isOver ? ORANGE : GREEN;
           return (
-            <View key={p.label} style={styles.periodRow}>
-              <Text style={styles.periodLabel}>{p.label}</Text>
-              <View style={styles.periodBarWrap}>
+            <View key={p.label} className="flex-row items-center mb-[10px] gap-2">
+              <Text className="text-xs text-[#444] w-[110px]">{p.label}</Text>
+              <View className="flex-1">
                 <ProgressBar value={p.spent} max={p.budget} color={color} />
               </View>
-              <Text style={[styles.periodAmount, isOver && styles.periodAmountOver]}>
+              <Text className={`text-[11px] text-right w-[90px] ${isOver ? 'text-[#f5a623]' : 'text-[#444]'}`}>
                 {formatKr(p.spent)}/{formatKr(p.budget)}
               </Text>
             </View>
@@ -126,15 +129,19 @@ export default function AssistantScreen() {
       </View>
 
       {/* Insights */}
-      <Text style={styles.sectionTitle}>Insights</Text>
+      <Text className="text-lg font-bold mb-3">Insights</Text>
 
       {mockInsights.map((insight) => (
-        <View key={insight.id} style={[styles.insightCard, { backgroundColor: insight.bg }]}>
-          <View style={styles.insightHeader}>
-            <Text style={styles.insightIcon}>{insight.icon}</Text>
-            <View style={styles.insightMeta}>
-              <Text style={styles.insightCategory}>{insight.category}</Text>
-              <Text style={styles.insightDate}>{insight.date}</Text>
+        <View
+          key={insight.id}
+          className="rounded-[14px] p-4 mb-3 shadow-sm"
+          style={{ backgroundColor: insight.bg }}
+        >
+          <View className="flex-row items-center mb-[10px] gap-[10px]">
+            <Text className="text-[22px]">{insight.icon}</Text>
+            <View className="flex-row items-center gap-2">
+              <Text className="font-semibold text-[13px] text-[#333]">{insight.category}</Text>
+              <Text className="text-xs text-[#999]">{insight.date}</Text>
             </View>
           </View>
           <InsightMessage message={insight.message} accent={insight.accentAmount} />
@@ -143,158 +150,3 @@ export default function AssistantScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: GRAY_BG,
-  },
-  content: {
-    padding: 16,
-    paddingBottom: 32,
-  },
-
-  // Account pill
-  accountPill: {
-    backgroundColor: GREEN,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  accountName: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: 14,
-  },
-  accountBank: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 12,
-  },
-  accountBalance: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-
-  // Challenge card
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
-  },
-  cardMonth: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 6,
-  },
-  challengeAmount: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: GREEN,
-    marginBottom: 2,
-  },
-  challengeSub: {
-    fontSize: 13,
-    color: '#555',
-    marginBottom: 12,
-  },
-  bold: {
-    fontWeight: '700',
-    color: '#222',
-  },
-  overallBarRow: {
-    marginBottom: 14,
-  },
-  barTrack: {
-    height: 8,
-    backgroundColor: GRAY_BAR,
-    borderRadius: 4,
-    overflow: 'hidden',
-  },
-  barFill: {
-    height: '100%',
-    borderRadius: 4,
-  },
-  periodRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    gap: 8,
-  },
-  periodLabel: {
-    fontSize: 12,
-    color: '#444',
-    width: 110,
-  },
-  periodBarWrap: {
-    flex: 1,
-  },
-  periodAmount: {
-    fontSize: 11,
-    color: '#444',
-    textAlign: 'right',
-    width: 90,
-  },
-  periodAmountOver: {
-    color: ORANGE,
-  },
-
-  // Insights
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 12,
-  },
-  insightCard: {
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 1,
-  },
-  insightHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    gap: 10,
-  },
-  insightIcon: {
-    fontSize: 22,
-  },
-  insightMeta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  insightCategory: {
-    fontWeight: '600',
-    fontSize: 13,
-    color: '#333',
-  },
-  insightDate: {
-    fontSize: 12,
-    color: '#999',
-  },
-  insightMessage: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#111',
-    lineHeight: 22,
-  },
-  insightAccent: {
-    color: GREEN,
-  },
-});
