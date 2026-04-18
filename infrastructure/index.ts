@@ -80,8 +80,34 @@ const db = new aws.rds.Instance("openspiir-db", {
     tags: { Project: "openspiir" },
 });
 
+// S3 bucket for Pulumi state storage
+const pulumiStateBucket = new aws.s3.Bucket("openspiir-pulumi-state", {
+    tags: { Project: "openspiir" },
+});
+
+new aws.s3.BucketVersioning("openspiir-pulumi-state-versioning", {
+    bucket: pulumiStateBucket.id,
+    versioningConfiguration: { status: "Enabled" },
+});
+
+new aws.s3.BucketServerSideEncryptionConfiguration("openspiir-pulumi-state-encryption", {
+    bucket: pulumiStateBucket.id,
+    rules: [{
+        applyServerSideEncryptionByDefault: { sseAlgorithm: "AES256" },
+    }],
+});
+
+new aws.s3.BucketPublicAccessBlock("openspiir-pulumi-state-public-access-block", {
+    bucket: pulumiStateBucket.id,
+    blockPublicAcls: true,
+    blockPublicPolicy: true,
+    ignorePublicAcls: true,
+    restrictPublicBuckets: true,
+});
+
 export const kubeconfig = pulumi.secret(cluster.kubeconfig);
 export const clusterEndpoint = cluster.core.endpoint;
 export const vpcId = vpc.vpcId;
 export const dbEndpoint = db.endpoint;
 export const dbPort = db.port;
+export const pulumiStateBucketName = pulumiStateBucket.bucket;
