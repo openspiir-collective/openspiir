@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 const GREEN = '#3dbf6e';
 const GREEN_MUTED = '#b2e6c8';
@@ -37,35 +37,29 @@ function formatDKK(n: number) {
   return n.toLocaleString('da-DK');
 }
 
-// ── Bar chart ──────────────────────────────────────────────────────────────
-
 function BarChart() {
   const maxVal = Math.max(...monthlyData.flatMap((d) => [d.income, d.expenses]));
   const currentIdx = monthlyData.length - 1;
 
   return (
-    <View style={chartStyles.container}>
+    <View className="flex-row items-end justify-between">
       {monthlyData.map((d, i) => {
         const isCurrent = i === currentIdx;
         const incomeH = Math.max((d.income / maxVal) * CHART_MAX_HEIGHT, 4);
         const expenseH = Math.max((d.expenses / maxVal) * CHART_MAX_HEIGHT, 4);
         return (
-          <View key={d.month} style={chartStyles.col}>
-            <View style={chartStyles.barsRow}>
+          <View key={d.month} className="flex-1 items-center">
+            <View className="flex-row items-end gap-[3px] mb-[6px]" style={{ height: CHART_MAX_HEIGHT }}>
               <View
-                style={[
-                  chartStyles.bar,
-                  { height: incomeH, backgroundColor: isCurrent ? GREEN : GREEN_MUTED },
-                ]}
+                className="w-[11px] rounded"
+                style={{ height: incomeH, backgroundColor: isCurrent ? GREEN : GREEN_MUTED }}
               />
               <View
-                style={[
-                  chartStyles.bar,
-                  { height: expenseH, backgroundColor: isCurrent ? ORANGE : ORANGE_MUTED },
-                ]}
+                className="w-[11px] rounded"
+                style={{ height: expenseH, backgroundColor: isCurrent ? ORANGE : ORANGE_MUTED }}
               />
             </View>
-            <Text style={[chartStyles.label, isCurrent && chartStyles.labelCurrent]}>
+            <Text className={`text-[9px] tracking-[0.2px] ${isCurrent ? 'text-[#333] font-bold' : 'text-[#bbb] font-medium'}`}>
               {d.month}
             </Text>
           </View>
@@ -75,49 +69,14 @@ function BarChart() {
   );
 }
 
-const chartStyles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-  },
-  col: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  barsRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    gap: 3,
-    height: CHART_MAX_HEIGHT,
-    marginBottom: 6,
-  },
-  bar: {
-    width: 11,
-    borderRadius: 4,
-  },
-  label: {
-    fontSize: 9,
-    color: '#bbb',
-    fontWeight: '500',
-    letterSpacing: 0.2,
-  },
-  labelCurrent: {
-    color: '#333',
-    fontWeight: '700',
-  },
-});
-
-// ── Account row icon ───────────────────────────────────────────────────────
-
 function CardIcon() {
   return (
-    <View style={iconStyles.wrap}>
-      <View style={iconStyles.card}>
-        <View style={iconStyles.stripe} />
-        <View style={iconStyles.lines}>
-          <View style={iconStyles.line} />
-          <View style={iconStyles.line} />
+    <View className="w-[38px] h-[38px] rounded-[10px] bg-[#fdf3e0] items-center justify-center">
+      <View className="w-[22px] h-[16px] bg-[#f5c66a] rounded-[3px] overflow-hidden px-[3px] pb-[3px]">
+        <View className="h-[5px] bg-[#e0a030] -mx-[3px] mb-[3px]" />
+        <View className="gap-[2px]">
+          <View className="h-[2px] w-[10px] bg-black/[0.18] rounded-[1px]" />
+          <View className="h-[2px] w-[10px] bg-black/[0.18] rounded-[1px]" />
         </View>
       </View>
     </View>
@@ -126,335 +85,115 @@ function CardIcon() {
 
 function SavingsIcon() {
   return (
-    <View style={[iconStyles.wrap, iconStyles.savingsWrap]}>
-      <Text style={iconStyles.savingsEmoji}>🐷</Text>
+    <View className="w-[38px] h-[38px] rounded-[10px] bg-[#e8f8ef] items-center justify-center">
+      <Text className="text-[20px]">🐷</Text>
     </View>
   );
 }
 
-const iconStyles = StyleSheet.create({
-  wrap: {
-    width: 38,
-    height: 38,
-    borderRadius: 10,
-    backgroundColor: '#fdf3e0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  savingsWrap: {
-    backgroundColor: '#e8f8ef',
-  },
-  card: {
-    width: 22,
-    height: 16,
-    backgroundColor: '#f5c66a',
-    borderRadius: 3,
-    overflow: 'hidden',
-    paddingHorizontal: 3,
-    paddingBottom: 3,
-  },
-  stripe: {
-    height: 5,
-    backgroundColor: '#e0a030',
-    marginHorizontal: -3,
-    marginBottom: 3,
-  },
-  lines: {
-    gap: 2,
-  },
-  line: {
-    height: 2,
-    width: 10,
-    backgroundColor: 'rgba(0,0,0,0.18)',
-    borderRadius: 1,
-  },
-  savingsEmoji: {
-    fontSize: 20,
-  },
-});
-
-// ── Filter sliders icon ────────────────────────────────────────────────────
-
 function SlidersIcon() {
   return (
-    <View style={sliderStyles.container}>
+    <View className="gap-[3px] justify-center items-center">
       {[0, 1, 2].map((i) => (
-        <View key={i} style={sliderStyles.row}>
-          <View style={sliderStyles.line} />
-          <View style={[sliderStyles.knob, i === 1 && sliderStyles.knobRight]} />
-          <View style={sliderStyles.line} />
+        <View key={i} className="flex-row items-center w-[16px]">
+          <View className="flex-1 h-[1.5px] bg-[#333] rounded" />
+          <View
+            className="w-[5px] h-[5px] rounded-[3px] bg-[#333] absolute"
+            style={{ left: i === 1 ? 9 : 4 }}
+          />
+          <View className="flex-1 h-[1.5px] bg-[#333] rounded" />
         </View>
       ))}
     </View>
   );
 }
 
-const sliderStyles = StyleSheet.create({
-  container: {
-    gap: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 16,
-    gap: 0,
-  },
-  line: {
-    flex: 1,
-    height: 1.5,
-    backgroundColor: '#333',
-    borderRadius: 1,
-  },
-  knob: {
-    width: 5,
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: '#333',
-    marginHorizontal: 0,
-    // default knob at 1/3 from left — override per row
-    position: 'absolute',
-    left: 4,
-  },
-  knobRight: {
-    left: 9,
-  },
-});
-
-// ── Main screen ────────────────────────────────────────────────────────────
-
 export default function OverviewScreen() {
   const [activeTab, setActiveTab] = useState<Tab>('Konti');
 
   return (
     <ScrollView
-      style={styles.screen}
-      contentContainerStyle={styles.content}
+      className="flex-1 bg-white"
+      contentContainerClassName="p-5 pb-9"
       showsVerticalScrollIndicator={false}
     >
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Overblik</Text>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconBtn}>
-            <Text style={styles.searchIcon}>🔍</Text>
+      <View className="flex-row items-center justify-between mb-5">
+        <Text className="text-[26px] font-extrabold text-[#111] tracking-[-0.5px]">Overblik</Text>
+        <View className="flex-row gap-2">
+          <TouchableOpacity className="w-[38px] h-[38px] rounded-[19px] bg-[#f2f2f2] items-center justify-center">
+            <Text className="text-base">🔍</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconBtn}>
+          <TouchableOpacity className="w-[38px] h-[38px] rounded-[19px] bg-[#f2f2f2] items-center justify-center">
             <SlidersIcon />
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Income / Expenses summary */}
-      <View style={styles.summaryRow}>
-        <View style={styles.summaryBlock}>
-          <Text style={styles.summaryLabel}>Indkomst</Text>
-          <Text style={[styles.summaryAmount, { color: GREEN }]}>+{formatDKK(mockSummary.income)}</Text>
-          <Text style={styles.summaryAvg}>Gns: +{formatDKK(mockSummary.incomeAvg)}</Text>
+      <View className="flex-row justify-between mb-5">
+        <View className="gap-[2px]">
+          <Text className="text-xs text-[#888] font-medium">Indkomst</Text>
+          <Text className="text-[22px] font-bold tracking-[-0.5px] text-[#3dbf6e]">+{formatDKK(mockSummary.income)}</Text>
+          <Text className="text-[11px] text-[#aaa]">Gns: +{formatDKK(mockSummary.incomeAvg)}</Text>
         </View>
-        <View style={[styles.summaryBlock, styles.summaryRight]}>
-          <Text style={styles.summaryLabel}>Udgifter</Text>
-          <Text style={[styles.summaryAmount, { color: ORANGE }]}>-{formatDKK(mockSummary.expenses)}</Text>
-          <Text style={styles.summaryAvg}>Gns: -{formatDKK(mockSummary.expensesAvg)}</Text>
+        <View className="gap-[2px] items-end">
+          <Text className="text-xs text-[#888] font-medium">Udgifter</Text>
+          <Text className="text-[22px] font-bold tracking-[-0.5px] text-[#f5a623]">-{formatDKK(mockSummary.expenses)}</Text>
+          <Text className="text-[11px] text-[#aaa]">Gns: -{formatDKK(mockSummary.expensesAvg)}</Text>
         </View>
       </View>
 
       {/* Bar chart */}
-      <View style={styles.chartWrap}>
+      <View className="mb-5">
         <BarChart />
       </View>
 
       {/* Tabs */}
-      <View style={styles.tabs}>
+      <View className="flex-row bg-[#f2f2f2] rounded-[10px] p-[3px] mb-4">
         {TABS.map((tab) => (
           <TouchableOpacity
             key={tab}
-            style={[styles.tab, activeTab === tab && styles.tabActive]}
+            className={`flex-1 py-[7px] rounded-lg items-center ${activeTab === tab ? 'bg-white shadow-sm' : ''}`}
             onPress={() => setActiveTab(tab)}
           >
-            <Text style={[styles.tabText, activeTab === tab && styles.tabTextActive]}>{tab}</Text>
+            <Text className={`text-[13px] ${activeTab === tab ? 'text-[#111] font-bold' : 'text-[#888] font-medium'}`}>
+              {tab}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
 
       {/* Account list */}
       {activeTab === 'Konti' && (
-        <View style={styles.accountList}>
+        <View>
           {mockAccounts.map((account, idx) => (
             <View
               key={account.id}
-              style={[styles.accountRow, idx < mockAccounts.length - 1 && styles.accountRowDivider]}
+              className={`flex-row items-center py-[14px] gap-3 ${idx < mockAccounts.length - 1 ? 'border-b border-[#eee]' : ''}`}
             >
               {account.type === 'savings' ? <SavingsIcon /> : <CardIcon />}
-              <View style={styles.accountInfo}>
-                <Text style={styles.accountName}>{account.name}</Text>
-                <Text style={styles.accountBank}>{account.bank}</Text>
+              <View className="flex-1">
+                <Text className="text-[15px] font-bold text-[#111] mb-[2px]">{account.name}</Text>
+                <Text className="text-xs text-[#999]">{account.bank}</Text>
               </View>
-              <Text style={styles.accountBalance}>+{formatDKK(account.balance)} kr</Text>
+              <Text className="text-[15px] font-bold text-[#111]">+{formatDKK(account.balance)} kr</Text>
             </View>
           ))}
         </View>
       )}
 
       {activeTab === 'Kategorier' && (
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyText}>Kategorier kommer snart</Text>
+        <View className="py-10 items-center">
+          <Text className="text-sm text-[#bbb]">Kategorier kommer snart</Text>
         </View>
       )}
 
       {activeTab === 'Poster' && (
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyText}>Poster kommer snart</Text>
+        <View className="py-10 items-center">
+          <Text className="text-sm text-[#bbb]">Poster kommer snart</Text>
         </View>
       )}
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  content: {
-    padding: 20,
-    paddingBottom: 36,
-  },
-
-  // Header
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: '800',
-    color: '#111',
-    letterSpacing: -0.5,
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  iconBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: '#f2f2f2',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  searchIcon: {
-    fontSize: 16,
-  },
-
-  // Summary
-  summaryRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  summaryBlock: {
-    gap: 2,
-  },
-  summaryRight: {
-    alignItems: 'flex-end',
-  },
-  summaryLabel: {
-    fontSize: 12,
-    color: '#888',
-    fontWeight: '500',
-  },
-  summaryAmount: {
-    fontSize: 22,
-    fontWeight: '700',
-    letterSpacing: -0.5,
-  },
-  summaryAvg: {
-    fontSize: 11,
-    color: '#aaa',
-  },
-
-  // Chart
-  chartWrap: {
-    marginBottom: 20,
-  },
-
-  // Tabs
-  tabs: {
-    flexDirection: 'row',
-    backgroundColor: '#f2f2f2',
-    borderRadius: 10,
-    padding: 3,
-    marginBottom: 16,
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 7,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  tabActive: {
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 2,
-  },
-  tabText: {
-    fontSize: 13,
-    color: '#888',
-    fontWeight: '500',
-  },
-  tabTextActive: {
-    color: '#111',
-    fontWeight: '700',
-  },
-
-  // Accounts
-  accountList: {
-    gap: 0,
-  },
-  accountRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 14,
-    gap: 12,
-  },
-  accountRowDivider: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#eee',
-  },
-  accountInfo: {
-    flex: 1,
-  },
-  accountName: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#111',
-    marginBottom: 2,
-  },
-  accountBank: {
-    fontSize: 12,
-    color: '#999',
-  },
-  accountBalance: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#111',
-  },
-
-  // Empty states
-  emptyState: {
-    paddingVertical: 40,
-    alignItems: 'center',
-  },
-  emptyText: {
-    fontSize: 14,
-    color: '#bbb',
-  },
-});
