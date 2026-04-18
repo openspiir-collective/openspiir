@@ -9,9 +9,10 @@ OpenSpiir is a community effort to recreate [Spiir](https://spiir.dk) — a Scan
 ## Monorepo Structure
 
 ```
-backend/   # Kotlin + MySQL API server
-web/       # React + Tailwind web app
-app/       # React Native + Expo mobile app
+backend/        # Kotlin + MySQL API server
+web/            # React + Tailwind web app
+app/            # React Native + Expo mobile app
+infrastructure/ # Pulumi IaC
 ```
 
 The three packages are independent — each has its own build tooling and dependency management. There is no shared package or workspace root tooling yet.
@@ -21,6 +22,7 @@ The three packages are independent — each has its own build tooling and depend
 - **Backend**: Kotlin (likely Spring Boot or Ktor) with PostgreSQL
 - **Web**: React with Tailwind CSS
 - **App**: React Native with Expo
+- **Infrastructure**: Pulumi, hosted on AWS (with intent to migrate to a European cloud provider later), likely Kubernetes
 
 Stack choices marked with `?` in the READMEs are not yet locked in. When adding dependencies or scaffolding, prefer the lightest approach that can be changed later.
 
