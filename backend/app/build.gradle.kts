@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     implementation(libs.http4k.core)
-    implementation(libs.http4k.server.undertow)
+    implementation(libs.http4k.server.jetty)
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation(libs.junit.jupiter.engine)

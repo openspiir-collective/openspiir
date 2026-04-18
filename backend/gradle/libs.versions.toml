@@ -4,7 +4,7 @@ junit-jupiter-engine = "5.11.0"
 
 [libraries]
 http4k-core = { module = "org.http4k:http4k-core", version.ref = "http4k" }
-http4k-server-undertow = { module = "org.http4k:http4k-server-undertow", version.ref = "http4k" }
+http4k-server-jetty = { module = "org.http4k:http4k-server-jetty", version.ref = "http4k" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter-engine" }
 
 [plugins]
