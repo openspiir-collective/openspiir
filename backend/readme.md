@@ -1,3 +1,3 @@
 # Backend
 
-MySQL & kotlin?
+PostgreSQL & kotlin?
