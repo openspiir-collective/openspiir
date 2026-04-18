@@ -1,1 +1,29 @@
-I don't know yet, some open source license.
+# OpenSpiir Community License v1.0
+
+Copyright (c) 2026 Jakob Ambeck Vase
+
+Permission is hereby granted to any person obtaining a copy of this software
+and associated documentation files (the "Software") to use, copy, modify, and
+distribute the Software, subject to the following conditions:
+
+## 1. Attribution
+
+All copies or substantial portions of the Software, modified or unmodified,
+must include this license and clearly credit the original author(s).
+
+## 2. Non-Commercial Use Only
+
+The Software may not be used, in whole or in part, for commercial purposes —
+including selling, licensing for profit, or incorporating into a commercial
+product or service — without prior written permission from the copyright holder.
+
+## 3. Share-Alike
+
+Any modified or derivative version of the Software must be distributed under
+this license or one with equally or more restrictive terms regarding
+attribution, non-commercial use, and share-alike.
+
+## 4. No Warranty
+
+The Software is provided "as is", without warranty of any kind. The authors
+are not liable for any damages arising from its use.
