@@ -5,20 +5,21 @@ Work through these tasks one PR at a time. Each PR should be small, focused, and
 ## Foundation
 
 - [ ] **1. Add http4k** — replace the Gradle `application` scaffold with a minimal http4k server (single `GET /health` route, no database yet)
-- [ ] **2. Add PostgreSQL** — add Exposed ORM + HikariCP, wire a datasource from env vars, run migrations with Flyway
-- [ ] **3. Data models** — define DB tables and Kotlin data classes: `users`, `accounts`, `transactions`, `categories`
-- [ ] **4. Auth** — JWT-based authentication (issue token on POST /auth/token, verify on protected routes)
-- [ ] **5. Transactions API** — CRUD endpoints: list, get, create, update, delete transactions (no categorization yet)
-- [ ] **6. Categories API** — manage categories (seeded defaults matching Spiir's category list)
+- [ ] **2. Add Hoplite** — typed configuration loaded from env / HOCON; define a `AppConfig` data class covering all runtime settings
+- [ ] **3. Add PostgreSQL** — HikariCP datasource wired from Hoplite config, Flyway migrations on startup, a smoke-test migration
+- [ ] **4. Data models** — define DB tables and Kotlin data classes: `users`, `accounts`, `transactions`, `categories`
+- [ ] **5. Auth** — JWT-based authentication (issue token on a dedicated http4k route, verify on protected routes)
+- [ ] **6. graphql-java setup** — wire a `/graphql` endpoint into http4k using graphql-java's programmatic builder API; empty schema + a `ping` query to verify the plumbing
+- [ ] **7. Transactions** — GraphQL queries (`transactions`, `transaction`) and mutations (`createTransaction`, `updateTransaction`, `deleteTransaction`)
+- [ ] **8. Categories** — GraphQL queries and mutations for categories; seed default categories matching Spiir's list
 
 ## LLM Integration
 
-- [ ] **7. Anthropic SDK** — add the Anthropic Kotlin SDK, wire `ANTHROPIC_API_KEY` from env, add a thin `LlmClient` wrapper with prompt caching enabled
-- [ ] **8. Transaction categorization** — on transaction create/update, call the LLM to suggest a category; store the suggestion and a `categorized_by` field (`user` | `llm`)
-- [ ] **9. Budget insights** — `GET /insights` endpoint: summarize spending patterns for the current month using the LLM, return structured JSON
-- [ ] **10. Natural language search** — `POST /transactions/search` accepts a natural language query, translates it to a DB filter via LLM, returns matching transactions
+- [ ] **9. Anthropic SDK** — add the Anthropic Kotlin SDK, wire `ANTHROPIC_API_KEY` via Hoplite config, add a thin `LlmClient` wrapper with prompt caching enabled
+- [ ] **10. Transaction categorization** — on transaction create/update, call the LLM to suggest a category; store the suggestion and a `categorizedBy` field (`USER` | `LLM`)
+- [ ] **11. Budget insights** — `insights` GraphQL query: summarize spending patterns for the current month using the LLM, return structured data
+- [ ] **12. Natural language search** — `searchTransactions(query: String)` GraphQL query: translate natural language to a DB filter via LLM
 
 ## Polish
 
-- [ ] **11. OpenAPI spec** — auto-generate from Ktor routes, serve at `/openapi.json`
-- [ ] **12. Docker** — `Dockerfile` + `docker-compose.yml` with the app + Postgres + a local migrations step
+- [ ] **13. Docker** — `Dockerfile` + `docker-compose.yml` with app + Postgres + local migrations step
