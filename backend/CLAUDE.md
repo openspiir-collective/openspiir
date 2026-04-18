@@ -20,7 +20,6 @@ Never skip ahead or bundle multiple TODO items into one PR.
 - **Migrations**: Flyway
 - **API**: graphql-java with the programmatic builder API (no schema-first SDL files)
 - **Auth**: JWT
-- **LLM**: Anthropic Kotlin SDK with prompt caching enabled (see TODO items 9+)
 
 ## Configuration
 
@@ -32,7 +31,6 @@ All settings go through a Hoplite `AppConfig` data class. Environment variables 
 | `DATABASE_USER` | DB username |
 | `DATABASE_PASSWORD` | DB password |
 | `JWT_SECRET` | Secret for signing JWTs |
-| `ANTHROPIC_API_KEY` | Anthropic API key (items 9+) |
 
 ## Code style
 

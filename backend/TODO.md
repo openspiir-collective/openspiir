@@ -13,13 +13,6 @@ Work through these tasks one PR at a time. Each PR should be small, focused, and
 - [ ] **7. Transactions** — GraphQL queries (`transactions`, `transaction`) and mutations (`createTransaction`, `updateTransaction`, `deleteTransaction`)
 - [ ] **8. Categories** — GraphQL queries and mutations for categories; seed default categories matching Spiir's list
 
-## LLM Integration
-
-- [ ] **9. Anthropic SDK** — add the Anthropic Kotlin SDK, wire `ANTHROPIC_API_KEY` via Hoplite config, add a thin `LlmClient` wrapper with prompt caching enabled
-- [ ] **10. Transaction categorization** — on transaction create/update, call the LLM to suggest a category; store the suggestion and a `categorizedBy` field (`USER` | `LLM`)
-- [ ] **11. Budget insights** — `insights` GraphQL query: summarize spending patterns for the current month using the LLM, return structured data
-- [ ] **12. Natural language search** — `searchTransactions(query: String)` GraphQL query: translate natural language to a DB filter via LLM
-
 ## Polish
 
-- [ ] **13. Docker** — `Dockerfile` + `docker-compose.yml` with app + Postgres + local migrations step
+- [ ] **9. Docker** — `Dockerfile` + `docker-compose.yml` with app + Postgres + local migrations step
