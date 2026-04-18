@@ -19,16 +19,12 @@ repositories {
 }
 
 dependencies {
-    // Use the Kotlin Test integration.
+    implementation(libs.http4k.core)
+    implementation(libs.http4k.server.undertow)
+
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-
-    // Use the JUnit 5 integration.
     testImplementation(libs.junit.jupiter.engine)
-
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    // This dependency is used by the application.
-    implementation(libs.guava)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
