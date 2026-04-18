@@ -14,7 +14,7 @@ Never skip ahead or bundle multiple TODO items into one PR.
 
 ## Stack
 
-- **Framework**: Ktor (not Spring Boot)
+- **Framework**: http4k (not Spring Boot, not Ktor)
 - **Database**: PostgreSQL via Exposed ORM + HikariCP
 - **Migrations**: Flyway
 - **Auth**: JWT

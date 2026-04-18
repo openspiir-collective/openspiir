@@ -4,7 +4,7 @@ Work through these tasks one PR at a time. Each PR should be small, focused, and
 
 ## Foundation
 
-- [ ] **1. Add Ktor** — replace the Gradle `application` scaffold with a minimal Ktor HTTP server (`embeddedServer`, single `GET /health` route, no database yet)
+- [ ] **1. Add http4k** — replace the Gradle `application` scaffold with a minimal http4k server (single `GET /health` route, no database yet)
 - [ ] **2. Add PostgreSQL** — add Exposed ORM + HikariCP, wire a datasource from env vars, run migrations with Flyway
 - [ ] **3. Data models** — define DB tables and Kotlin data classes: `users`, `accounts`, `transactions`, `categories`
 - [ ] **4. Auth** — JWT-based authentication (issue token on POST /auth/token, verify on protected routes)
