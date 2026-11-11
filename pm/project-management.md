@@ -26,6 +26,7 @@ Tick an action when it's done; add new ones at the bottom.
   - Keep #1 (website) and #5 (Spiir import) open as umbrella issues, with a comment linking their roadmap items.
   - Keep #3 (open banking) and #19 (encryption) open as paused discussions, with a comment summarising the current decision.
 - [ ] **Get the Spiir category list into the repo** (the maintainer has it), then unblock D2.
+- [ ] **ML stack decision** (maintainer, with a specialist): record it in `docs/decisions.md`, then unblock M1 in `ROADMAP.md`.
 - [ ] **Unblock D6 (Spiir import)** once another agent has added `docs/spiir-export-format.md` and an anonymized sample export: remove ⏸ from D6 in `ROADMAP.md`, remove the "Spiir export format" open decision, and create D6's issue.
 
 ## Log
@@ -36,3 +37,4 @@ Tick an action when it's done; add new ones at the bottom.
 - **2026-11-11:** Review agents will act as a GitHub App, so they can formally approve. Verdicts are now real GitHub reviews; the `changes-requested` and `review-passed` labels are dropped.
 - **2026-11-11:** Backend decisions: plain JDBC, session cookies, GraphQL kept, Java 25. Categorization decisions: pipeline order, merchant keys, transfer detection, splitting delayed, category kinds. Added roadmap phase K. Machine learning under discussion.
 - **2026-11-11:** Decided on an optional Python ML categorizer service as a playground. Added roadmap items M1–M3 and the `area:ml` label.
+- **2026-11-11:** The ML stack is left to the maintainer and a specialist. M1 is blocked until it's decided.
