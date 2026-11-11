@@ -12,12 +12,16 @@ Early development. See [ROADMAP.md](ROADMAP.md) for what's planned and what's do
 
 Help is very welcome, and AI-assisted contributions are fine. Pick an unchecked item from the [roadmap](ROADMAP.md) and keep PRs small and focused, one roadmap item each.
 
+## Scope
+
+- **In scope:** a self-hosted web app with a backend, run with Docker or Podman Compose.
+- **Paused:** the mobile app, a hosted public service (and its cloud infrastructure), and automatic bank connections (open banking). Earlier code for the first two was removed and can be restored from git history; see [docs/decisions.md](docs/decisions.md).
+- **Out of scope:** Spiir's "Assistant" and "Challenges" features.
+
 ## Repository layout
 
 | Directory | Contents |
 |---|---|
 | `backend/` | Kotlin + http4k + PostgreSQL API (GraphQL) |
-| `app/` | React Native + Expo mobile app |
 | `web/` | Web client (not started) |
-| `infrastructure/` | Pulumi/AWS code for a possible hosted version (paused) |
 | `docs/` | Decision log and guides |

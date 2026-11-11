@@ -93,3 +93,14 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 **Why:** They aren't part of the core: import, categorize, budget, save.
 
 **Consequences:** The mock `AssistantScreen` and `ChallengesScreen` in `app/` will be removed (roadmap item A1).
+
+## 2026-11-11 — Remove paused code from the repo
+
+**Decision:** Delete the paused mobile app (`app/`) and the Pulumi/AWS infrastructure (`infrastructure/`) from the repo instead of leaving them in place.
+
+**Why:** Paused code confuses contributors and agents, who may try to extend or "fix" it. Git history keeps it, so it can be restored if needed.
+
+**Consequences:**
+- To restore either, check it out from commit `243524f`, the last commit that contains both: `git checkout 243524f -- app` or `git checkout 243524f -- infrastructure`.
+- Roadmap item A1 (removing the Assistant and Challenges screens) is dropped, because the whole app is gone.
+- Removing the Pulumi code doesn't remove AWS resources that were already deployed. If the stack was ever deployed, restore the code and run `pulumi destroy`.

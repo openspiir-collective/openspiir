@@ -67,17 +67,12 @@ Goal: a usable web app shipped in the compose stack. Use [mine.spiir.dk](https:/
 - [ ] **W11. Savings goals**: create goals and show progress. Needs W5, F4.
 - [ ] **W12. Data export**: a button that downloads all the user's data. Needs W4, F5.
 
-## Paused: mobile app
-
-The app in `app/` is paused until the web client is usable (see decisions). When work resumes, it needs a configurable server URL and must replace its mock data with GraphQL queries.
-
-- [ ] **A1. Remove out-of-scope screens**: delete `AssistantScreen` and `ChallengesScreen` and their tabs.
-
 ## Later / not now
 
 - **Open banking** (#3): optional aggregator plugin through D7. Deferred; see decisions.
 - **Encryption of user data** (#19): needs its own design discussion. Note that zero-knowledge encryption conflicts with server-side categorization rules and aggregates.
-- **Hosted deployment** (#20): the Pulumi/AWS code in `infrastructure/` is paused.
+- **Mobile app** (#2): paused, and the code was removed (see decisions). Needs a configurable server URL when it comes back.
+- **Hosted deployment** (#20): paused, and the Pulumi/AWS code was removed (see decisions).
 
 ---
 

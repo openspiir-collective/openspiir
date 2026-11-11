@@ -17,15 +17,14 @@ OpenSpiir is an open-source, self-hostable personal finance app in the spirit of
 - **Self-hosting first.** It runs with `compose.yaml` under both Docker and Podman. Follow the Podman-compatibility rules in the decision log.
 - **No open banking for now.** Data comes from manual entry and file import.
 - **Multi-user data model.** Scope every row to a user, so a hosted version stays possible later.
+- **Paused:** mobile app, hosted deployment and open banking. Their old code was removed from the repo; don't recreate it unless the roadmap says so.
 - Money is stored as integer minor units plus a currency code, never as floats.
 
 ## Monorepo structure
 
 ```
 backend/        # Kotlin + http4k + PostgreSQL, GraphQL API
-app/            # React Native + Expo + NativeWind (mock UI only so far)
 web/            # Web client (not started)
-infrastructure/ # Pulumi/AWS for a possible hosted version (paused)
 docs/           # Decision log, guides
 ```
 
