@@ -1,16 +1,8 @@
 # Backend — Claude Code Instructions
 
-## PR-by-PR workflow
+## Workflow
 
-Work through [TODO.md](TODO.md) **one item at a time**:
-
-1. Pick the next unchecked item.
-2. Implement it on a new branch: `feat/backend-<slug>` (e.g. `feat/backend-http4k`).
-3. Open a **small, focused PR** — one logical change per PR, no bundling.
-4. **Stop and tell the user** the PR URL. Do not start the next item until they say the PR is merged.
-5. After merge, pull `main`, mark the item done in `TODO.md`, and repeat.
-
-Never skip ahead or bundle multiple TODO items into one PR.
+Backend work is tracked in the root [ROADMAP.md](../ROADMAP.md) (items `B*`, `D*`, `F*`). Follow the workflow described there: one item per PR, tick it in the same PR, then stop and report the PR URL.
 
 ## Stack
 
