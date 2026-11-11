@@ -50,12 +50,28 @@ Goal: the core Spiir features.
 - [ ] **F4. Savings goals**: a goal (target amount, optional date) linked to an account or tracked manually, with progress queries. Needs D3.
 - [ ] **F5. Data export**: export all of a user's data as CSV/JSON, so users are never locked in the way they were with Spiir. Needs D3.
 
-## Phase 4: Client
+## Phase 4: Web client
 
-⏸ **Blocked on decision C (below).** Items get written once that is settled. Whatever the choice, the client must:
-- talk to the backend only through GraphQL;
-- let the user enter the server URL (because instances are self-hosted);
-- replace the mock data in the existing app screens with real queries.
+Goal: a usable web app shipped in the compose stack. Use [mine.spiir.dk](https://mine.spiir.dk) as the UI reference. Stack: Vite + React + TypeScript + Tailwind. The client talks to the backend only through GraphQL (plus the auth route). These items can run in parallel with Phases 2–3 once their backend dependencies are merged.
+
+- [ ] **W1. Scaffold**: a Vite + React + TypeScript + Tailwind app in `web/` with a placeholder page, routing, and a layout shell (nav + content area). Update `web/readme.md` with dev commands.
+- [ ] **W2. Web container + compose**: a `Containerfile` that builds the static bundle and serves it from an unprivileged web server listening on a port ≥ 1024. The server reverse-proxies `/graphql` and the auth routes to `backend`. Add `web` to `compose.yaml` as the only service exposed to the host. Follow the Podman rules in `docs/decisions.md`. Needs W1, B5.
+- [ ] **W3. GraphQL client**: a lightweight GraphQL client plus TypeScript types generated from the backend schema. Document how to regenerate the types. Needs W1, B8.
+- [ ] **W4. Login and signup**: login and signup pages, token storage, logout, and redirect to login when unauthenticated. The signup page is hidden when the server has `ALLOW_SIGNUP=false`. Needs W3, B7.
+- [ ] **W5. Accounts**: list, create, rename and delete accounts. Needs W4, D1.
+- [ ] **W6. Transactions**: a transaction list filtered by account, date range and category, with pagination. Edit a transaction's category inline; create and delete transactions manually. Needs W5, D3.
+- [ ] **W7. CSV import flow**: upload a file, pick a bank preset or map columns by hand, preview the parsed rows, confirm, then show a summary (imported / duplicates skipped). Needs W6, D4 (presets: D5).
+- [ ] **W8. Categories and rules**: manage categories and subcategories, plus categorization rules with a "apply to uncategorized" action. Needs W6, D2, F1.
+- [ ] **W9. Overview**: a dashboard showing spending per category per month, income vs. expenses, and balance over time. Needs W6, F2.
+- [ ] **W10. Budgets**: set monthly budgets per category; show budget vs. actual. Needs W9, F3.
+- [ ] **W11. Savings goals**: create goals and show progress. Needs W5, F4.
+- [ ] **W12. Data export**: a button that downloads all the user's data. Needs W4, F5.
+
+## Paused: mobile app
+
+The app in `app/` is paused until the web client is usable (see decisions). When work resumes, it needs a configurable server URL and must replace its mock data with GraphQL queries.
+
+- [ ] **A1. Remove out-of-scope screens**: delete `AssistantScreen` and `ChallengesScreen` and their tabs.
 
 ## Later / not now
 
@@ -69,6 +85,4 @@ Goal: the core Spiir features.
 
 Record each resolved one in `docs/decisions.md`, then update this roadmap.
 
-- **C. Which client first: web or mobile app?** The app (`app/`) already has mock UI for Overview, Assistant and Challenges. A web client is easier to ship inside the compose stack for self-hosters. Expo can also target the web (`expo start --web`), which might let one codebase cover both.
-- **What are "Assistant" and "Challenges"?** The app has mock screens for both. Decide whether they're in scope, and what they mean without Spiir's backend.
 - **Spiir export format** (D6): someone needs to provide an anonymized sample export.
