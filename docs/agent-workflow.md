@@ -13,8 +13,6 @@ How an implementing agent (or human) picks up an issue and delivers a PR. Review
 | `area:selfhost` | Containerfiles, `compose.yaml`, `.env.example`, `docs/self-hosting.md`, CI workflows. |
 | `area:docs` | Documentation outside the self-hosting guide. |
 | `needs-review` | (on PRs) Ready for a reviewer. |
-| `changes-requested` | (on PRs) A reviewer asked for changes. |
-| `review-passed` | (on PRs) A reviewer found no blocking issues. The PR merges automatically once CI is green and all review threads are resolved. |
 
 Rules:
 - Only pick issues labelled `agent-ready`.
@@ -27,12 +25,12 @@ Rules:
 3. **Branch:** `<type>/<area>-<slug>`, e.g. `feat/backend-hoplite`. `<type>` is a [Conventional Commits](https://www.conventionalcommits.org/) type.
 4. **Implement** exactly what the issue asks, with tests (see below). Don't edit `ROADMAP.md`, `docs/decisions.md` or anything in `pm/`.
 5. **Commit as you go:** small commits, each with a message that explains *why* as well as *what* (see below).
-6. **Open a PR** using the PR template, with `Closes #<n>`, and add the `needs-review` label.
+6. **Open a PR** using the PR template, with `Closes #<n>`. Add the `needs-review` label and enable auto-merge (merge commit, not squash, so your commit history stays intact). The PR merges by itself once a reviewer approves, CI is green and all review threads are resolved.
 7. **Stop** and report the PR URL. Don't start another issue.
 
 ### Responding to review
 
-When a reviewer labels your PR `changes-requested`, fix each point in new commits. Don't force-push over reviewed history. Reply to each review comment saying what you changed, or why you disagree. Don't resolve review threads yourself; the reviewer does that. Then swap `changes-requested` for `needs-review`.
+When a reviewer requests changes on your PR, fix each point in new commits. Don't force-push over reviewed history. Reply to each review comment saying what you changed, or why you disagree. Don't resolve review threads yourself; the reviewer does that. Then add `needs-review` again.
 
 ## Record what you did as you go
 

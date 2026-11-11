@@ -141,3 +141,9 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 - Only reviewers resolve review threads; implementers reply but never resolve.
 - Because reviewing is the final gate, reviewers shouldn't pass a PR they're unsure about.
 - The exact mechanism (a separate reviewer account or GitHub App with real approvals, or a label-triggered merge workflow) depends on the GitHub setup.
+
+## 2026-11-11 — Review agents act as a GitHub App
+
+**Decision:** Review agents authenticate as a dedicated GitHub App. Implementing agents use the maintainer's account. Verdicts are real GitHub reviews (Approve / Request changes). An approval from the App, green CI and resolved conversations together trigger GitHub's auto-merge, with merge commits so each PR's commit history is kept. This replaces the `changes-requested` / `review-passed` labels; `needs-review` stays as the reviewers' queue.
+
+**Why:** GitHub doesn't let an account approve its own PRs. A separate identity makes approvals real, so the built-in branch protection and auto-merge can be used instead of a custom merge workflow. A GitHub App was picked over a second user account.

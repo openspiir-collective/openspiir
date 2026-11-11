@@ -42,10 +42,8 @@ Read the linked issue first: it defines what "done" means. Then check, in this o
   - the blocking points, as a list;
   - which acceptance criteria you verified;
   - anything you couldn't verify.
-- Then set the label (remove `needs-review`):
-  - `changes-requested` if there's at least one blocking point;
-  - `review-passed` if there are none.
-- Don't merge by hand. **Merging is automatic** once the PR has passed review, CI is green and every review thread is resolved. Your verdict is therefore the last human-like gate, so don't pass a PR you have doubts about.
+- Submit it as a GitHub review: **Request changes** if there's at least one blocking point, otherwise **Approve**. Then remove the `needs-review` label.
+- Don't merge by hand. **Merging is automatic** once the PR is approved, CI is green and every review thread is resolved. Your verdict is therefore the last human-like gate, so don't pass a PR you have doubts about.
 
 ## Resolving threads
 
@@ -54,7 +52,7 @@ Unresolved review threads block the automatic merge.
 - Resolve nits too once you've read the implementer's response, even if they chose not to change anything. Nits never block.
 - Never pass a PR while one of your blocking threads is still unresolved.
 
-All agents may post through the same GitHub account, and GitHub doesn't let an account approve or request changes on its own PR. So use comments plus labels for the verdict, not GitHub's approve or request-changes buttons.
+Reviewers act as the project's review GitHub App, a separate identity from the implementers, which is why approving works. If you find yourself authenticated as the PR's author, stop: you're not set up as a reviewer.
 
 ## Re-review
 
