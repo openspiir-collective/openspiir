@@ -53,7 +53,7 @@ Issues follow this structure (template: `.github/ISSUE_TEMPLATE/agent-task.md`):
 
 All new behaviour has tests, and all tests pass. Tests run in CI once it's set up.
 
-- **Backend:** JUnit 5. Test http4k handlers in memory (call the `HttpHandler` directly, no running server). Code that touches the database is tested against a real PostgreSQL through Testcontainers. Don't mock the database.
+- **Backend:** JUnit 5. Test http4k handlers in memory (call the `HttpHandler` directly, no running server). Code that touches the database is tested against a real PostgreSQL through Testcontainers. Don't mock the database. (On Podman, Testcontainers needs Podman's Docker-compatible socket; see `backend/AGENTS.md`.)
 - **Web:** Vitest + React Testing Library. Mock GraphQL at the network boundary.
 - **Importers / parsers:** table-driven tests over small, committed, anonymized or made-up sample files.
 - **Compose / containers:** the PR describes a manual smoke check (`docker compose up` and/or `podman compose up` reaching a healthy state), until CI covers it.

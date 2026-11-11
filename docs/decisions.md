@@ -147,3 +147,18 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 **Decision:** Review agents authenticate as a dedicated GitHub App. Implementing agents use the maintainer's account. Verdicts are real GitHub reviews (Approve / Request changes). An approval from the App, green CI and resolved conversations together trigger GitHub's auto-merge, with merge commits so each PR's commit history is kept. This replaces the `changes-requested` / `review-passed` labels; `needs-review` stays as the reviewers' queue.
 
 **Why:** GitHub doesn't let an account approve its own PRs. A separate identity makes approvals real, so the built-in branch protection and auto-merge can be used instead of a custom merge workflow. A GitHub App was picked over a second user account.
+
+## 2026-11-11 — Backend: plain JDBC, session cookies, keep GraphQL, Java 25
+
+**Decision:**
+- **Database access:** plain JDBC behind small repository classes. No ORM, jOOQ or query builder.
+- **Auth:** server-side sessions in a `sessions` table, sent as an httpOnly `SameSite=Lax` cookie. JWT is dropped. This supersedes "JWT auth" in the 2026-04-18 stack entry.
+- **API:** GraphQL stays.
+- **JDK:** Java 25, the current LTS (released September 2025; the next LTS is 29, due September 2027). It replaces the 21 toolchain.
+- **Podman:** contributors on Podman run Testcontainers through Podman's Docker-compatible socket.
+
+**Why:**
+- Plain JDBC: no extra dependencies or code generation, and it's easy for both agents and new contributors to follow.
+- Sessions: browser and API share one origin, so a cookie is simpler and safer than a bearer token in browser storage. Server-side sessions can also be revoked, which JWTs can't easily be.
+- GraphQL: the maintainer finds it simplifies the frontend logic a lot.
+- Java 25: the newest LTS, supported by our Gradle 9.4 and Kotlin 2.3.

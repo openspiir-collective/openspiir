@@ -14,16 +14,17 @@ Status: `[ ]` open · `[x]` done · ⏸ blocked on a decision (see [Open decisio
 
 ## Phase 1: Backend foundation
 
-Goal: a backend that starts, connects to Postgres and serves an authenticated GraphQL endpoint.
+Goal: a backend that starts, connects to Postgres and serves an authenticated GraphQL endpoint. Backend stack: see `backend/AGENTS.md`.
 
 - [x] **B1. http4k server**: minimal http4k + Jetty server with `GET /health`.
+- [ ] **B9. Java 25**: bump the Gradle toolchain from 21 to 25 (current LTS). Needs B1.
 - [ ] **CI1. Backend CI**: a GitHub Actions workflow that runs the backend tests (`./gradlew test`) on every PR and on pushes to `main`. Needs B1.
 - [ ] **B2. Hoplite config**: an `AppConfig` data class loaded from environment variables (see the table in `backend/AGENTS.md`). No raw `System.getenv()` calls. Bind to the port in `PORT` (default 8080). Needs B1.
 - [ ] **B3. PostgreSQL**: a HikariCP datasource built from `AppConfig`, Flyway migrations on startup, and one smoke-test migration. `/health` reports DB connectivity. Needs B2.
-- [ ] **B4. Container image**: a `Containerfile` for the backend (multi-stage Gradle build → JRE runtime image, runs as non-root). Follow the Podman rules in `docs/decisions.md`. Needs B1.
+- [ ] **B4. Container image**: a `Containerfile` for the backend (multi-stage Gradle build → Java 25 JRE runtime image, runs as non-root). Follow the Podman rules in `docs/decisions.md`. Needs B9.
 - [ ] **B5. Compose stack**: `compose.yaml` at the repo root with `backend` + `postgres` (fully qualified images, a named volume, healthchecks, config through a `.env` file with a committed `.env.example`). Document `docker compose up` and `podman compose up` in a new `docs/self-hosting.md`. Needs B3, B4.
 - [ ] **B6. Core schema**: Flyway migrations and Kotlin data classes for `users`, `accounts`, `categories` and `transactions`. Every row except `users` has a `user_id`. Store amounts as integer minor units (øre) plus an ISO currency code, never as floats. Needs B3.
-- [ ] **B7. Auth**: local user accounts (a password hash using argon2 or bcrypt) with a login route that issues a JWT. Protected routes verify the JWT. Signup can be turned off through config (`ALLOW_SIGNUP`), so a self-hoster can lock their instance after creating their own account. Needs B6.
+- [ ] **B7. Auth**: local user accounts (a password hash using argon2 or bcrypt), with login and logout routes. Server-side sessions: a `sessions` table holding hashed random session IDs, sent as an httpOnly `SameSite=Lax` cookie. No JWT. Protected routes check the session. Signup can be turned off through config (`ALLOW_SIGNUP`), so a self-hoster can lock their instance after creating their own account. Needs B6.
 - [ ] **B8. GraphQL plumbing**: a `/graphql` endpoint using graphql-java's programmatic builder, a `ping` query, and the authenticated user available to resolvers. Needs B7.
 
 ## Phase 2: Getting data in
@@ -50,12 +51,12 @@ Goal: the core Spiir features.
 
 ## Phase 4: Web client
 
-Goal: a usable web app shipped in the compose stack. Use [mine.spiir.dk](https://mine.spiir.dk) as the UI reference. Stack: Vite + React + TypeScript + Tailwind. The client talks to the backend only through GraphQL (plus the auth route). These items can run in parallel with Phases 2–3 once their backend dependencies are merged.
+Goal: a usable web app shipped in the compose stack. Use [mine.spiir.dk](https://mine.spiir.dk) as the UI reference. Stack: Vite + React + TypeScript + Tailwind. The client talks to the backend only through GraphQL (plus the login/logout/signup routes). These items can run in parallel with Phases 2–3 once their backend dependencies are merged.
 
 - [ ] **W1. Scaffold**: a Vite + React + TypeScript + Tailwind app in `web/` with a placeholder page, routing, and a layout shell (nav + content area). Update `web/readme.md` with dev commands. Extend CI to run the web tests and type-check.
 - [ ] **W2. Web container + compose**: a `Containerfile` that builds the static bundle and serves it from an unprivileged web server listening on a port ≥ 1024. The server reverse-proxies `/graphql` and the auth routes to `backend`. Add `web` to `compose.yaml` as the only service exposed to the host. Follow the Podman rules in `docs/decisions.md`. Needs W1, B5.
 - [ ] **W3. GraphQL client**: a lightweight GraphQL client plus TypeScript types generated from the backend schema. Document how to regenerate the types. Needs W1, B8.
-- [ ] **W4. Login and signup**: login and signup pages, token storage, logout, and redirect to login when unauthenticated. The signup page is hidden when the server has `ALLOW_SIGNUP=false`. Needs W3, B7.
+- [ ] **W4. Login and signup**: login and signup pages (the session cookie is set by the server, so there's no token handling in the client), logout, and redirect to login when unauthenticated. The signup page is hidden when the server has `ALLOW_SIGNUP=false`. Needs W3, B7.
 - [ ] **W5. Accounts**: list, create, rename and delete accounts. Needs W4, D1.
 - [ ] **W6. Transactions**: a transaction list filtered by account, date range and category, with pagination. Edit a transaction's category inline; create and delete transactions manually. Needs W5, D3.
 - [ ] **W7. CSV import flow**: upload a file, pick a bank preset or map columns by hand, preview the parsed rows, confirm, then show a summary (imported / duplicates skipped). Needs W6, D4 (presets: D5).
