@@ -77,3 +77,19 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 **Consequences:** Work is organized as a roadmap of PR-sized items (`ROADMAP.md`) that an agent can pick up one at a time.
 
 **Source:** #29.
+
+## 2026-11-11 — Web client first
+
+**Decision:** Build the web client (`web/`) before the mobile app. The web client is a static React + TypeScript + Tailwind app built with Vite. It runs in its own container in the compose stack, and that container also reverse-proxies the API, so browser and API share one origin.
+
+**Why:** A web client is the easiest thing to self-host: one `compose up` gives a working app at one URL, with no app store and no separate server-URL setup. Serving everything from one origin avoids CORS and the need to configure the API URL. The mobile app comes later.
+
+**Consequences:** The mobile app (`app/`) is paused. It will need a configurable server URL when work resumes. [mine.spiir.dk](https://mine.spiir.dk) (#1) is the UI reference.
+
+## 2026-11-11 — Assistant and Challenges are out of scope
+
+**Decision:** Spiir's "Assistant" and "Challenges" features won't be built.
+
+**Why:** They aren't part of the core: import, categorize, budget, save.
+
+**Consequences:** The mock `AssistantScreen` and `ChallengesScreen` in `app/` will be removed (roadmap item A1).
