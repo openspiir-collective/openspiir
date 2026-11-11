@@ -162,3 +162,17 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 - Sessions: browser and API share one origin, so a cookie is simpler and safer than a bearer token in browser storage. Server-side sessions can also be revoked, which JWTs can't easily be.
 - GraphQL: the maintainer finds it simplifies the frontend logic a lot.
 - Java 25: the newest LTS, supported by our Gradle 9.4 and Kotlin 2.3.
+
+## 2026-11-11 — Categorization approach
+
+**Decision:**
+- Categorizers run as a pipeline in a fixed order, and the first match wins: manual choice → user rules → the user's own history (by normalized merchant key) → a community-maintained default list of Danish merchants → uncategorized. Manual choices are never overwritten.
+- Raw bank text is normalized to a merchant key before matching.
+- Whether a line is income, expense or transfer comes from its **category's kind**, not the sign of the amount.
+- **Transfers** between the user's own accounts are detected and left out of income and spending.
+- **Splitting** a transaction across categories is delayed until after the first version.
+- The default categories come from **Spiir's category list**.
+
+**Why:** Spiir's auto-categorization drew on data from all its users, which a self-hosted instance doesn't have. Merchant keys, the user's own history (which a Spiir export can fill on day one) and a shared default list come close without any central data. Without transfer detection, budgets and overviews are wrong for anyone with several accounts.
+
+**Consequences:** New roadmap phase K (K1–K6). The F1 rules item is folded into K2. D2 is blocked until the Spiir category list is in the repo.
