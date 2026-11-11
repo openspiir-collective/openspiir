@@ -17,8 +17,8 @@ Tick an action when it's done; add new ones at the bottom.
 
 - [ ] **Get GitHub write access for the PM agent** (maintainer). Either install `gh` and run `gh auth login`, or provide a token in an environment variable.
 - [ ] **Set up the review GitHub App and automatic merging** (maintainer, with a specialist). Gate: an approval from the review App, CI green, all conversations resolved, merge commits allowed. Once CI1 is merged, its check needs to be made required.
-- [ ] **Create labels:** `agent-ready`, `in-progress`, `area:backend`, `area:web`, `area:selfhost`, `area:docs`, `needs-review`.
-- [ ] **Create issues for every roadmap item:** CI1, B2–B9, D1–D7, K1–K6, F2–F5, W1–W12. Area labels: B4, B5, W2 and CI1 → `area:selfhost`; other B, D, K and F items → `area:backend`; W items → `area:web`. Add the issue numbers to `ROADMAP.md`.
+- [ ] **Create labels:** `agent-ready`, `in-progress`, `area:backend`, `area:web`, `area:ml`, `area:selfhost`, `area:docs`, `needs-review`.
+- [ ] **Create issues for every roadmap item:** CI1, B2–B9, D1–D7, K1–K6, M1–M3, F2–F5, W1–W12. Area labels: M items → `area:ml` (M2 touches the backend, so it gets `area:backend`); B4, B5, W2 and CI1 → `area:selfhost`; other B, D, K and F items → `area:backend`; W items → `area:web`. Add the issue numbers to `ROADMAP.md`.
 - [ ] **Add `agent-ready` to the first issues:** CI1, B2, B9 and W1 have no unmerged dependencies (B2 and B9 are both `area:backend`, so only one at a time). B4 needs B9 (Java 25) and shares `area:selfhost` with CI1, so it waits for both.
 - [ ] **Triage the old epics** (proposed; maintainer to confirm):
   - Close #2 (app) and #20 (infrastructure) as paused, linking to `decisions.md`.
@@ -26,7 +26,6 @@ Tick an action when it's done; add new ones at the bottom.
   - Keep #1 (website) and #5 (Spiir import) open as umbrella issues, with a comment linking their roadmap items.
   - Keep #3 (open banking) and #19 (encryption) open as paused discussions, with a comment summarising the current decision.
 - [ ] **Get the Spiir category list into the repo** (the maintainer has it), then unblock D2.
-- [ ] **Decide on a machine-learning categorizer** (under discussion).
 - [ ] **Unblock D6 (Spiir import)** once another agent has added `docs/spiir-export-format.md` and an anonymized sample export: remove ⏸ from D6 in `ROADMAP.md`, remove the "Spiir export format" open decision, and create D6's issue.
 
 ## Log
@@ -36,3 +35,4 @@ Tick an action when it's done; add new ones at the bottom.
 - **2026-11-11:** Maintainer decided merging will be automatic (review passed + CI green + no unresolved review threads). Updated the workflow docs: reviewers resolve threads, implementers don't.
 - **2026-11-11:** Review agents will act as a GitHub App, so they can formally approve. Verdicts are now real GitHub reviews; the `changes-requested` and `review-passed` labels are dropped.
 - **2026-11-11:** Backend decisions: plain JDBC, session cookies, GraphQL kept, Java 25. Categorization decisions: pipeline order, merchant keys, transfer detection, splitting delayed, category kinds. Added roadmap phase K. Machine learning under discussion.
+- **2026-11-11:** Decided on an optional Python ML categorizer service as a playground. Added roadmap items M1–M3 and the `area:ml` label.

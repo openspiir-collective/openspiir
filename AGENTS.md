@@ -40,6 +40,7 @@ If your task doesn't say which role you have, you're an implementer. Never revie
 ```
 backend/   # Kotlin + http4k + PostgreSQL, GraphQL API
 web/       # Web client (Vite + React + TypeScript + Tailwind; not started)
+categorizer/ # Optional Python ML categorization service (playground; not started)
 docs/      # Decision log, workflow docs, guides
 ```
 

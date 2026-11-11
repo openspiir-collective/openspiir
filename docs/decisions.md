@@ -176,3 +176,15 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 **Why:** Spiir's auto-categorization drew on data from all its users, which a self-hosted instance doesn't have. Merchant keys, the user's own history (which a Spiir export can fill on day one) and a shared default list come close without any central data. Without transfer detection, budgets and overviews are wrong for anyone with several accounts.
 
 **Consequences:** New roadmap phase K (K1–K6). The F1 rules item is folded into K2. D2 is blocked until the Spiir category list is in the repo.
+
+## 2026-11-11 — ML categorizer as an optional Python service
+
+**Decision:** Machine-learning categorization lives in a separate Python service (`categorizer/`, FastAPI + scikit-learn, managed with uv) running in its own container.
+- It's **optional**: off by default in `compose.yaml`, and the app works fully without it.
+- The backend calls it over HTTP as one categorizer in the pipeline, after the default merchant list. It only uses predictions above a confidence threshold, and errors or timeouts fall through.
+- The service has **no database access**: the backend sends it training data and it stores per-user models. It makes **no outbound network calls**, so financial data never leaves the user's own stack.
+- It's treated as a **playground**: nothing else on the roadmap depends on it, and there's an evaluation harness for measuring whether changes help.
+
+**Why:** Python has the ML ecosystem. The maintainer has no ML experience and wants room to experiment without blocking the core app. Keeping it behind an HTTP API, with no direct database access, means the service can be rewritten or dropped freely.
+
+**Consequences:** New roadmap items M1–M3 and a new `area:ml` label. The stack choices (FastAPI, scikit-learn, uv) are defaults picked by the PM and are easy to change while the service is a playground.

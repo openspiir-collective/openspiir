@@ -10,6 +10,7 @@ How an implementing agent (or human) picks up an issue and delivers a PR. Review
 | `in-progress` | Someone is working on it. Stays on until the PR is merged or closed. |
 | `area:backend` | Code in `backend/` (Kotlin, migrations, GraphQL schema). |
 | `area:web` | Code in `web/`. |
+| `area:ml` | Code in `categorizer/` (the optional Python ML service). |
 | `area:selfhost` | Containerfiles, `compose.yaml`, `.env.example`, `docs/self-hosting.md`, CI workflows. |
 | `area:docs` | Documentation outside the self-hosting guide. |
 | `needs-review` | (on PRs) Ready for a reviewer. |
@@ -55,5 +56,6 @@ All new behaviour has tests, and all tests pass. Tests run in CI once it's set u
 
 - **Backend:** JUnit 5. Test http4k handlers in memory (call the `HttpHandler` directly, no running server). Code that touches the database is tested against a real PostgreSQL through Testcontainers. Don't mock the database. (On Podman, Testcontainers needs Podman's Docker-compatible socket; see `backend/AGENTS.md`.)
 - **Web:** Vitest + React Testing Library. Mock GraphQL at the network boundary.
+- **Categorizer (Python):** pytest. Test the HTTP API and the train/predict round trip on small made-up datasets. Don't assert exact model accuracy in unit tests; that's what the evaluation harness is for.
 - **Importers / parsers:** table-driven tests over small, committed, anonymized or made-up sample files.
 - **Compose / containers:** the PR describes a manual smoke check (`docker compose up` and/or `podman compose up` reaching a healthy state), until CI covers it.

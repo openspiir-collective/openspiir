@@ -50,6 +50,14 @@ Goal: most bank lines get the right category automatically. The categorizers run
 - [ ] **K5. Recategorize past lines**: when a rule is added or a merchant's category is corrected, offer to apply it to past transactions with the same key, never touching manual choices. Needs K2.
 - [ ] **K6. Transfer detection**: detect transfers between the user's own accounts (opposite amounts on two of their accounts within a few days) and give them a `transfer` category. Transfers are left out of income/spending aggregates. Users can confirm or undo a match. Needs D3, D2.
 
+### ML categorizer (playground)
+
+An optional Python service in `categorizer/` for experimenting with machine-learning categorization. The app must work fully without it. Treat it as a playground, not a critical path: none of the phases above depend on it.
+
+- [ ] **M1. Service scaffold**: a Python HTTP service in `categorizer/` (FastAPI + scikit-learn, dependencies managed with uv) with `POST /train` (labelled lines for one user → stored model) and `POST /predict` (lines → category + confidence). Start with a deliberately simple baseline model. Has its own `Containerfile` and an optional service in `compose.yaml` (off by default, and it must work under both Docker and Podman). No database access and no outbound network calls. Tests with pytest.
+- [ ] **M2. Backend integration**: an ML categorizer in the K2 pipeline, placed after the default merchant list. It calls the service only if `CATEGORIZER_URL` is set, uses predictions above a configurable confidence threshold, and falls through silently on errors or timeouts. Sends the user's categorized history to `/train` after imports and corrections. Needs K4, M1.
+- [ ] **M3. Evaluation harness**: a script in `categorizer/` that replays a categorized history (e.g. an anonymized Spiir export) and reports accuracy per categorizer and for the whole pipeline, so changes to the model can be compared. Needs M1.
+
 ## Phase 4: Making sense of the data
 
 Goal: the core Spiir features.
@@ -92,4 +100,3 @@ Record each resolved one in `docs/decisions.md`, then update this roadmap.
 
 - **Spiir export format** (D6): someone needs to provide an anonymized sample export.
 - **Spiir category list** (D2): needs committing to the repo.
-- **Machine-learning categorizer**: under discussion. It would be another categorizer in the K2 pipeline.
