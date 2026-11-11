@@ -4,32 +4,33 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-OpenSpiir is a community effort to recreate [Spiir](https://spiir.dk) — a Scandinavian personal finance app — before Spiir shuts down on June 6th, 2026. The goal is feature parity: bank account aggregation, transaction categorization, budgeting, and savings goals.
+OpenSpiir is an open-source, self-hostable personal finance app in the spirit of [Spiir](https://spiir.dk), which shut down on 2026-06-06. Features: transaction import, categorization, budgets and savings goals.
 
-## Monorepo Structure
+## Start here
+
+- **[ROADMAP.md](ROADMAP.md)**: the work plan and the workflow for picking up items. Work on exactly one roadmap item per PR.
+- **[docs/decisions.md](docs/decisions.md)**: the decision log. Read it before proposing anything that changes direction, and add an entry when a project-level decision is made.
+- Per-package instructions: [backend/CLAUDE.md](backend/CLAUDE.md).
+
+## Key constraints
+
+- **Self-hosting first.** It runs with `compose.yaml` under both Docker and Podman. Follow the Podman-compatibility rules in the decision log.
+- **No open banking for now.** Data comes from manual entry and file import.
+- **Multi-user data model.** Scope every row to a user, so a hosted version stays possible later.
+- Money is stored as integer minor units plus a currency code, never as floats.
+
+## Monorepo structure
 
 ```
-backend/        # Kotlin + MySQL API server
-web/            # React + Tailwind web app
-app/            # React Native + Expo mobile app
-infrastructure/ # Pulumi IaC
+backend/        # Kotlin + http4k + PostgreSQL, GraphQL API
+app/            # React Native + Expo + NativeWind (mock UI only so far)
+web/            # Web client (not started)
+infrastructure/ # Pulumi/AWS for a possible hosted version (paused)
+docs/           # Decision log, guides
 ```
 
-The three packages are independent — each has its own build tooling and dependency management. There is no shared package or workspace root tooling yet.
+The packages are independent, each with its own build tooling. There's no workspace root tooling.
 
-## Stack Decisions (still being finalized)
+## Contribution context
 
-- **Backend**: Kotlin (likely Spring Boot or Ktor) with PostgreSQL
-- **Web**: React with Tailwind CSS
-- **App**: React Native with Expo
-- **Infrastructure**: Pulumi, hosted on AWS (with intent to migrate to a European cloud provider later), likely Kubernetes
-
-Stack choices marked with `?` in the READMEs are not yet locked in. When adding dependencies or scaffolding, prefer the lightest approach that can be changed later.
-
-## Development Commands
-
-> Commands will be added here as each sub-project is scaffolded. Check each subdirectory's README for the latest instructions.
-
-## Contribution Context
-
-This is an open, fast-moving project with a hard deadline. Prioritize getting working features shipped over perfect abstractions. When in doubt, keep things simple and easy for new contributors to understand.
+AI-assisted contributions are welcome. Keep PRs small and reviewable. Prefer the simplest thing that works and is easy for new contributors to understand.
