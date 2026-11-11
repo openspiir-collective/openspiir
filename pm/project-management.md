@@ -19,7 +19,7 @@ Tick an action when it's done; add new ones at the bottom.
 - [ ] **Set up the review GitHub App and automatic merging** (maintainer, with a specialist). Gate: an approval from the review App, CI green, all conversations resolved, merge commits allowed. Once CI1 is merged, its check needs to be made required.
 - [ ] **Create labels:** `agent-ready`, `in-progress`, `area:backend`, `area:web`, `area:selfhost`, `area:docs`, `needs-review`.
 - [ ] **Create issues for every roadmap item:** CI1, B2–B9, D1–D7, K1–K6, F2–F5, W1–W12. Area labels: B4, B5, W2 and CI1 → `area:selfhost`; other B, D, K and F items → `area:backend`; W items → `area:web`. Add the issue numbers to `ROADMAP.md`.
-- [ ] **Add `agent-ready` to the first issues:** CI1, B2, B9 and W1 have no unmerged dependencies (B2 and B9 are both `area:backend`, so only one at a time). B4 only needs B1, which is done, but it's `area:selfhost`, the same area as CI1, so it waits until CI1 is merged.
+- [ ] **Add `agent-ready` to the first issues:** CI1, B2, B9 and W1 have no unmerged dependencies (B2 and B9 are both `area:backend`, so only one at a time). B4 needs B9 (Java 25) and shares `area:selfhost` with CI1, so it waits for both.
 - [ ] **Triage the old epics** (proposed; maintainer to confirm):
   - Close #2 (app) and #20 (infrastructure) as paused, linking to `decisions.md`.
   - Close #4 (server) as replaced by the roadmap issues.
