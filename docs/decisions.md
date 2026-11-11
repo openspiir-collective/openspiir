@@ -130,3 +130,14 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 - Agents should work only from issues, not from the maintainer's planning notes.
 
 **Consequences:** All agents may post through one GitHub account, which can't formally approve its own PRs, so review verdicts are labels plus comments.
+
+## 2026-11-11 — Automatic merging
+
+**Decision:** A PR merges automatically once a review agent has passed it, CI is green and no review threads are unresolved. No human merge step.
+
+**Why:** The maintainer shouldn't be the bottleneck. Independent agent review, required tests and resolved threads together act as the quality gate.
+
+**Consequences:**
+- Only reviewers resolve review threads; implementers reply but never resolve.
+- Because reviewing is the final gate, reviewers shouldn't pass a PR they're unsure about.
+- The exact mechanism (a separate reviewer account or GitHub App with real approvals, or a label-triggered merge workflow) depends on the GitHub setup.

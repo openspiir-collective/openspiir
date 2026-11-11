@@ -14,7 +14,7 @@ How an implementing agent (or human) picks up an issue and delivers a PR. Review
 | `area:docs` | Documentation outside the self-hosting guide. |
 | `needs-review` | (on PRs) Ready for a reviewer. |
 | `changes-requested` | (on PRs) A reviewer asked for changes. |
-| `review-passed` | (on PRs) A reviewer found no blocking issues. The maintainer merges. |
+| `review-passed` | (on PRs) A reviewer found no blocking issues. The PR merges automatically once CI is green and all review threads are resolved. |
 
 Rules:
 - Only pick issues labelled `agent-ready`.
@@ -32,7 +32,7 @@ Rules:
 
 ### Responding to review
 
-When a reviewer labels your PR `changes-requested`, fix each point in new commits. Don't force-push over reviewed history. Reply to each review comment saying what you changed, or why you disagree. Then swap `changes-requested` for `needs-review`.
+When a reviewer labels your PR `changes-requested`, fix each point in new commits. Don't force-push over reviewed history. Reply to each review comment saying what you changed, or why you disagree. Don't resolve review threads yourself; the reviewer does that. Then swap `changes-requested` for `needs-review`.
 
 ## Record what you did as you go
 

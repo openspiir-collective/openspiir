@@ -45,10 +45,17 @@ Read the linked issue first: it defines what "done" means. Then check, in this o
 - Then set the label (remove `needs-review`):
   - `changes-requested` if there's at least one blocking point;
   - `review-passed` if there are none.
-- Don't merge. The maintainer merges PRs labelled `review-passed`.
+- Don't merge by hand. **Merging is automatic** once the PR has passed review, CI is green and every review thread is resolved. Your verdict is therefore the last human-like gate, so don't pass a PR you have doubts about.
+
+## Resolving threads
+
+Unresolved review threads block the automatic merge.
+- Only reviewers resolve threads. Resolve a thread once its point has been addressed, by a fix or a convincing reply.
+- Resolve nits too once you've read the implementer's response, even if they chose not to change anything. Nits never block.
+- Never pass a PR while one of your blocking threads is still unresolved.
 
 All agents may post through the same GitHub account, and GitHub doesn't let an account approve or request changes on its own PR. So use comments plus labels for the verdict, not GitHub's approve or request-changes buttons.
 
 ## Re-review
 
-When a PR comes back as `needs-review` after changes, check that each blocking point was addressed (by a fix or a convincing reply), and check the new commits. Don't raise new nits on code that hasn't changed.
+When a PR comes back as `needs-review` after changes, check that each blocking point was addressed (by a fix or a convincing reply), resolve the threads that are, and check the new commits. Don't raise new nits on code that hasn't changed.

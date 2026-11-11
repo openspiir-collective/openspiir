@@ -5,7 +5,7 @@ The project-manager agent's to-do list and running log. **Only the maintainer an
 ## Recurring duties
 
 - Turn each `ROADMAP.md` item into a GitHub issue following [agent-workflow.md](../docs/agent-workflow.md), with exactly one `area:*` label.
-- After each merge: tick the item in `ROADMAP.md`. Record any project-level decision flagged in the PR's "Decisions" section in `docs/decisions.md`. Open issues for any "Follow-ups" worth doing.
+- Merges are automatic, so check regularly for newly merged PRs. After each merge: tick the item in `ROADMAP.md`. Record any project-level decision flagged in the PR's "Decisions" section in `docs/decisions.md`. Open issues for any "Follow-ups" worth doing.
 - Add `agent-ready` to an issue once it's fully specified and every issue in its *Depends on* list is merged. Check this after each merge.
 - Keep the roadmap ↔ issue mapping current: once an item has an issue, add its number to the item in `ROADMAP.md`, e.g. `**B2. Hoplite config** (#31)`.
 - Record project-level decisions in `decisions.md` as they're made, and commit as we go.
@@ -16,6 +16,7 @@ The project-manager agent's to-do list and running log. **Only the maintainer an
 Tick an action when it's done; add new ones at the bottom.
 
 - [ ] **Get GitHub write access for the PM agent** (maintainer). Either install `gh` and run `gh auth login`, or provide a token in an environment variable.
+- [ ] **Set up automatic merging** (maintainer is doing this). The gate is: review passed, CI green, all review threads resolved. GitHub won't let an account approve its own PR, so if all agents share one account, branch protection with "required approvals" can't be the gate. Either give the review agents their own account or GitHub App so they can formally approve, or use a workflow that merges on the `review-passed` label when checks pass and threads are resolved. Update `docs/review-workflow.md` to match whichever is chosen.
 - [ ] **Create labels:** `agent-ready`, `in-progress`, `area:backend`, `area:web`, `area:selfhost`, `area:docs`, `needs-review`, `changes-requested`, `review-passed`.
 - [ ] **Create issues for every roadmap item:** CI1, B2–B8, D1–D7, F1–F5, W1–W12. Area labels: B4, B5, W2 and CI1 → `area:selfhost`; other B, D and F items → `area:backend`; W items → `area:web`. Add the issue numbers to `ROADMAP.md`.
 - [ ] **Add `agent-ready` to the first issues:** CI1, B2 and W1 have no unmerged dependencies. B4 only needs B1, which is done, but it's `area:selfhost`, the same area as CI1, so it waits until CI1 is merged.
@@ -30,3 +31,4 @@ Tick an action when it's done; add new ones at the bottom.
 
 - **2026-11-11:** Project restarted. Wrote the decision log and roadmap. Decided on self-hosting first, Compose with Podman support, open banking deferred, web client first, and Assistant/Challenges out of scope. Removed `app/` and `infrastructure/`. Set up the issue-based agent workflow (labels, issue format, testing rules). Waiting for GitHub access to create issues.
 - **2026-11-11:** Prepared the repo for implementing and reviewing agents. `AGENTS.md` is now the canonical instruction file (`CLAUDE.md` imports it). Added the reviewer workflow and a PR template. Agents no longer edit the roadmap or decision log. PM files moved to `pm/`, which agents are told not to read.
+- **2026-11-11:** Maintainer decided merging will be automatic (review passed + CI green + no unresolved review threads). Updated the workflow docs: reviewers resolve threads, implementers don't.
