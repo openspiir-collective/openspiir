@@ -2,7 +2,7 @@
 
 ## Workflow
 
-Backend work is tracked in the root [ROADMAP.md](../ROADMAP.md) (items `B*`, `D*`, `F*`). Follow the workflow described there: one item per PR, tick it in the same PR, then stop and report the PR URL.
+Backend work is tracked as GitHub issues labelled `area:backend`, with the overview in [ROADMAP.md](../ROADMAP.md). Follow [docs/agent-workflow.md](../docs/agent-workflow.md): pick only `agent-ready` issues, one per PR, then stop and report the PR URL.
 
 ## Stack
 

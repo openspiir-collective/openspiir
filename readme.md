@@ -10,7 +10,7 @@ Early development. See [ROADMAP.md](ROADMAP.md) for what's planned and what's do
 
 ## Contributing
 
-Help is very welcome, and AI-assisted contributions are fine. Pick an unchecked item from the [roadmap](ROADMAP.md) and keep PRs small and focused, one roadmap item each.
+Help is very welcome, and AI-assisted contributions are fine. Pick a GitHub issue labelled `agent-ready` and follow [docs/agent-workflow.md](docs/agent-workflow.md). Keep PRs small: one issue each, with tests.
 
 ## Scope
 

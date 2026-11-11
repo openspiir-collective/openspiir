@@ -104,3 +104,11 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 - To restore either, check it out from commit `243524f`, the last commit that contains both: `git checkout 243524f -- app` or `git checkout 243524f -- infrastructure`.
 - Roadmap item A1 (removing the Assistant and Challenges screens) is dropped, because the whole app is gone.
 - The Pulumi stack was never deployed, so there are no AWS resources to clean up.
+
+## 2026-11-11 — GitHub issues and labels drive agent work
+
+**Decision:** Each roadmap item becomes a GitHub issue with a fixed structure: goal, context, requirements, acceptance criteria, tests, out of scope. Issues ready for pickup get the `agent-ready` label. Each issue has exactly one `area:*` label, and only one issue per area may be `in-progress` at a time. Every PR must include tests. The details are in `docs/agent-workflow.md`.
+
+**Why:** Several agents work in parallel with little supervision. Issues give them self-contained specs. Area labels stop two agents from editing the same code at once. Required tests stand in for close human review.
+
+**Consequences:** Added a CI roadmap item (CI1), because required tests are worth little unless something runs them.

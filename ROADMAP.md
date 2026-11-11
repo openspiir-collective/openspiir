@@ -4,12 +4,9 @@ The work plan for OpenSpiir, split into PR-sized items. It is written so a codin
 
 ## How to work through this roadmap
 
-1. **Pick one item.** Take the first unchecked item in the earliest phase that isn't blocked. Items list their dependencies under *Needs*. Don't start items marked ⏸ (waiting on a decision).
-2. **One item per PR.** Use a branch named `<type>/<area>-<slug>`, e.g. `feat/backend-hoplite` or `docs/selfhost-guide`. Don't bundle items, and keep unrelated refactors out.
-3. **Tick the item in the same PR.** Change `- [ ]` to `- [x]` here, so merging the PR updates the roadmap.
-4. **Record decisions.** If the work forces a project-level decision, add an entry to `docs/decisions.md` in the same PR.
-5. **Stop after opening the PR.** Report the PR URL and wait for review before starting the next item.
-6. Follow the per-package instructions (e.g. [`backend/CLAUDE.md`](backend/CLAUDE.md)) for stack and code style.
+Each item gets its own GitHub issue, which holds the full spec: goal, requirements, acceptance criteria and tests. **Work from issues labelled `agent-ready`**, following [docs/agent-workflow.md](docs/agent-workflow.md). It covers labels, the one-agent-per-area rule, branch naming and testing requirements.
+
+In short: one issue per PR. Tick the item here in the same PR, add an entry to `docs/decisions.md` if a project-level decision was made, then stop and report the PR URL.
 
 Status: `[ ]` open · `[x]` done · ⏸ blocked on a decision (see [Open decisions](#open-decisions)).
 
@@ -20,6 +17,7 @@ Status: `[ ]` open · `[x]` done · ⏸ blocked on a decision (see [Open decisio
 Goal: a backend that starts, connects to Postgres and serves an authenticated GraphQL endpoint.
 
 - [x] **B1. http4k server**: minimal http4k + Jetty server with `GET /health`.
+- [ ] **CI1. Backend CI**: a GitHub Actions workflow that runs the backend tests (`./gradlew test`) on every PR and on pushes to `main`. Needs B1.
 - [ ] **B2. Hoplite config**: an `AppConfig` data class loaded from environment variables (see the table in `backend/CLAUDE.md`). No raw `System.getenv()` calls. Bind to the port in `PORT` (default 8080). Needs B1.
 - [ ] **B3. PostgreSQL**: a HikariCP datasource built from `AppConfig`, Flyway migrations on startup, and one smoke-test migration. `/health` reports DB connectivity. Needs B2.
 - [ ] **B4. Container image**: a `Containerfile` for the backend (multi-stage Gradle build → JRE runtime image, runs as non-root). Follow the Podman rules in `docs/decisions.md`. Needs B1.
@@ -54,7 +52,7 @@ Goal: the core Spiir features.
 
 Goal: a usable web app shipped in the compose stack. Use [mine.spiir.dk](https://mine.spiir.dk) as the UI reference. Stack: Vite + React + TypeScript + Tailwind. The client talks to the backend only through GraphQL (plus the auth route). These items can run in parallel with Phases 2–3 once their backend dependencies are merged.
 
-- [ ] **W1. Scaffold**: a Vite + React + TypeScript + Tailwind app in `web/` with a placeholder page, routing, and a layout shell (nav + content area). Update `web/readme.md` with dev commands.
+- [ ] **W1. Scaffold**: a Vite + React + TypeScript + Tailwind app in `web/` with a placeholder page, routing, and a layout shell (nav + content area). Update `web/readme.md` with dev commands. Extend CI to run the web tests and type-check.
 - [ ] **W2. Web container + compose**: a `Containerfile` that builds the static bundle and serves it from an unprivileged web server listening on a port ≥ 1024. The server reverse-proxies `/graphql` and the auth routes to `backend`. Add `web` to `compose.yaml` as the only service exposed to the host. Follow the Podman rules in `docs/decisions.md`. Needs W1, B5.
 - [ ] **W3. GraphQL client**: a lightweight GraphQL client plus TypeScript types generated from the backend schema. Document how to regenerate the types. Needs W1, B8.
 - [ ] **W4. Login and signup**: login and signup pages, token storage, logout, and redirect to login when unauthenticated. The signup page is hidden when the server has `ALLOW_SIGNUP=false`. Needs W3, B7.

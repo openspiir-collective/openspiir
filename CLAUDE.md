@@ -10,6 +10,7 @@ OpenSpiir is an open-source, self-hostable personal finance app in the spirit of
 
 - **[ROADMAP.md](ROADMAP.md)**: the work plan and the workflow for picking up items. Work on exactly one roadmap item per PR.
 - **[docs/decisions.md](docs/decisions.md)**: the decision log. Read it before proposing anything that changes direction, and add an entry when a project-level decision is made.
+- **[docs/agent-workflow.md](docs/agent-workflow.md)**: how to pick up an issue (`agent-ready` and `area:*` labels), the issue format, and testing requirements.
 - Per-package instructions: [backend/CLAUDE.md](backend/CLAUDE.md).
 
 ## Key constraints
