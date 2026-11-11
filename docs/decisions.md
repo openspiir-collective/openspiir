@@ -103,4 +103,4 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 **Consequences:**
 - To restore either, check it out from commit `243524f`, the last commit that contains both: `git checkout 243524f -- app` or `git checkout 243524f -- infrastructure`.
 - Roadmap item A1 (removing the Assistant and Challenges screens) is dropped, because the whole app is gone.
-- Removing the Pulumi code doesn't remove AWS resources that were already deployed. If the stack was ever deployed, restore the code and run `pulumi destroy`.
+- The Pulumi stack was never deployed, so there are no AWS resources to clean up.
