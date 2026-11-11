@@ -1,0 +1,79 @@
+# Decision log
+
+A dated record of project-level decisions and the reasoning behind them. Newest entries go at the bottom. When a decision is reversed, add a new entry that supersedes the old one rather than editing history.
+
+Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **Consequences** / **Source**.
+
+---
+
+## 2026-04-16 — Recreate Spiir as an open-source project
+
+**Decision:** Build an open-source replacement for [Spiir](https://spiir.dk), the Danish personal finance app, aiming for feature parity: transaction overview, categorization, budgets and savings goals.
+
+**Why:** Spiir announced it would shut down on 2026-06-06.
+
+**Source:** issues #1–#5.
+
+## 2026-04-18 — Initial stack
+
+**Decision:**
+- Backend: Kotlin, http4k (Jetty), PostgreSQL, Hoplite config, HikariCP, Flyway, graphql-java (code-first, no SDL files), JWT auth. No ORM.
+- App: React Native + Expo + NativeWind.
+- Web: React + Tailwind (not started).
+- Infrastructure: Pulumi (TypeScript) on AWS: VPC, EKS and RDS Postgres.
+
+**Why:** Lightweight libraries over frameworks so the pieces are easy to replace. http4k was picked over Ktor and Spring Boot; Exposed and OpenAPI were dropped in favour of plain SQL and GraphQL.
+
+**Source:** PRs #10–#26; `backend/CLAUDE.md`.
+
+## 2026-11-11 — Project restarted after Spiir's shutdown
+
+**Decision:** Resume work. The 2026-06-06 deadline (and the 2026-05-22 app store review date in #2) no longer applies. The goal is now a good self-hostable personal finance app in the spirit of Spiir, not a race to replace it before it closes.
+
+**Why:** Spiir has closed. Work stopped on 2026-04-18 and is picking up again now.
+
+## 2026-11-11 — Self-hosting first, hosted service kept possible
+
+**Decision:** The first target is an app anyone can host themselves. A public hosted service stays a possible later goal, so we don't make choices that rule it out.
+
+**Why:** A hosted service means holding other people's financial data, with the legal and security obligations that brings (see #19). Self-hosting avoids that and gets something usable sooner.
+
+**Consequences:**
+- All runtime config comes from environment variables, with no AWS-specific assumptions in the app.
+- The data model stays multi-user (every row is scoped to a user), even though most self-hosted instances will have one or a few users. This keeps a hosted service possible.
+- The Pulumi/AWS infrastructure (#20) is paused. It isn't needed to self-host, and it costs money while it runs. It stays in the repo for a possible hosted version later.
+
+**Source:** #29.
+
+## 2026-11-11 — Docker Compose as the deployment format, Podman-compatible
+
+**Decision:** Ship self-hosting as a `compose.yaml` that works with both `docker compose` and `podman compose` / `podman-compose`.
+
+**Why:** Compose is the most common way people self-host. Podman support matters to rootless and Fedora/RHEL users and costs little if we plan for it from the start.
+
+**Consequences (rules for compose and image files):**
+- Stick to the [Compose Specification](https://compose-spec.io/). No Docker-only extensions, and no top-level `version:` key.
+- Use fully qualified image names (`docker.io/library/postgres:16`), because Podman doesn't assume Docker Hub.
+- Make it rootless-friendly: no host ports below 1024 by default, containers don't need to run as root, and nothing mounts `docker.sock`.
+- Prefer named volumes over bind mounts. Where a bind mount is needed, document the SELinux `:Z` label.
+- Name the image build file `Containerfile` or `Dockerfile` (both tools accept either) and use only standard instructions. No BuildKit-only syntax such as `RUN --mount`, unless both tools have been checked to support it.
+
+## 2026-11-11 — Open banking is not a priority
+
+**Decision:** Don't build an automatic bank connection now. Transactions come in through manual entry and file import (bank CSV exports, plus Spiir exports where users have them). Design the import side so a paid aggregator can be plugged in later as an optional, user-configured source.
+
+**Why:** Getting Danish bank data needs either an AIS licence (about 100,000 DKK a year plus a lot of manual integration work) or an aggregator subscription (the cheapest is about 20 DKK per account per month). Neither fits a free, self-hosted project. An aggregator such as [Lunch Flow](https://www.lunchflow.app/) could be added later for users willing to pay for it with their own account.
+
+**Consequences:** Issue #3 is deferred. File import becomes the main way data gets in and has to be good.
+
+**Source:** #29, #3.
+
+## 2026-11-11 — Contribution policy: AI-assisted code allowed, small PRs
+
+**Decision:** AI-assisted ("vibecoded") contributions are welcome. PRs must be small and focused so they can be reviewed.
+
+**Why:** The maintainer has little time and depends on agents, so reviewability is the bottleneck.
+
+**Consequences:** Work is organized as a roadmap of PR-sized items (`ROADMAP.md`) that an agent can pick up one at a time.
+
+**Source:** #29.
