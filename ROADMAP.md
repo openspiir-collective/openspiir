@@ -4,9 +4,9 @@ The work plan for OpenSpiir, split into PR-sized items. It is written so a codin
 
 ## How to work through this roadmap
 
-Each item gets its own GitHub issue, which holds the full spec: goal, requirements, acceptance criteria and tests. **Work from issues labelled `agent-ready`**, following [docs/agent-workflow.md](docs/agent-workflow.md). It covers labels, the one-agent-per-area rule, branch naming and testing requirements.
+Each item gets its own GitHub issue, which holds the full spec. **Agents work from issues labelled `agent-ready`**, following [docs/agent-workflow.md](docs/agent-workflow.md), not from this file directly.
 
-In short: one issue per PR. Tick the item here in the same PR, add an entry to `docs/decisions.md` if a project-level decision was made, then stop and report the PR URL.
+This file is maintained by the maintainer: items are ticked after their PR is merged. Implementing agents read it for context but don't edit it.
 
 Status: `[ ]` open · `[x]` done · ⏸ blocked on a decision (see [Open decisions](#open-decisions)).
 
@@ -18,7 +18,7 @@ Goal: a backend that starts, connects to Postgres and serves an authenticated Gr
 
 - [x] **B1. http4k server**: minimal http4k + Jetty server with `GET /health`.
 - [ ] **CI1. Backend CI**: a GitHub Actions workflow that runs the backend tests (`./gradlew test`) on every PR and on pushes to `main`. Needs B1.
-- [ ] **B2. Hoplite config**: an `AppConfig` data class loaded from environment variables (see the table in `backend/CLAUDE.md`). No raw `System.getenv()` calls. Bind to the port in `PORT` (default 8080). Needs B1.
+- [ ] **B2. Hoplite config**: an `AppConfig` data class loaded from environment variables (see the table in `backend/AGENTS.md`). No raw `System.getenv()` calls. Bind to the port in `PORT` (default 8080). Needs B1.
 - [ ] **B3. PostgreSQL**: a HikariCP datasource built from `AppConfig`, Flyway migrations on startup, and one smoke-test migration. `/health` reports DB connectivity. Needs B2.
 - [ ] **B4. Container image**: a `Containerfile` for the backend (multi-stage Gradle build → JRE runtime image, runs as non-root). Follow the Podman rules in `docs/decisions.md`. Needs B1.
 - [ ] **B5. Compose stack**: `compose.yaml` at the repo root with `backend` + `postgres` (fully qualified images, a named volume, healthchecks, config through a `.env` file with a committed `.env.example`). Document `docker compose up` and `podman compose up` in a new `docs/self-hosting.md`. Needs B3, B4.

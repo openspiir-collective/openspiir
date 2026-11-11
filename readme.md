@@ -10,7 +10,7 @@ Early development. See [ROADMAP.md](ROADMAP.md) for what's planned and what's do
 
 ## Contributing
 
-Help is very welcome, and AI-assisted contributions are fine. Pick a GitHub issue labelled `agent-ready` and follow [docs/agent-workflow.md](docs/agent-workflow.md). Keep PRs small: one issue each, with tests.
+Help is very welcome, and AI-assisted contributions are fine. Pick a GitHub issue labelled `agent-ready` and follow [docs/agent-workflow.md](docs/agent-workflow.md). Keep PRs small: one issue each, with tests. Reviews follow [docs/review-workflow.md](docs/review-workflow.md).
 
 ## Scope
 

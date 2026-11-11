@@ -2,6 +2,8 @@
 
 A dated record of project-level decisions and the reasoning behind them. Newest entries go at the bottom. When a decision is reversed, add a new entry that supersedes the old one rather than editing history.
 
+The maintainer keeps this file. Contributors flag project-level decisions in their PR description, and the maintainer records them here.
+
 Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **Consequences** / **Source**.
 
 ---
@@ -112,3 +114,19 @@ Format: `## YYYY-MM-DD — Title`, then **Decision**, **Why**, and optionally **
 **Why:** Several agents work in parallel with little supervision. Issues give them self-contained specs. Area labels stop two agents from editing the same code at once. Required tests stand in for close human review.
 
 **Consequences:** Added a CI roadmap item (CI1), because required tests are worth little unless something runs them.
+
+## 2026-11-11 — Separate implementer and reviewer roles; agents record work in commits and PRs
+
+**Decision:**
+- Agents have one role per session. Implementers follow `docs/agent-workflow.md`; reviewers follow `docs/review-workflow.md`. Reviewers never review their own work and never push to a PR they review. Review verdicts use labels (`needs-review`, `changes-requested`, `review-passed`), and the maintainer merges.
+- Agents record what they did and why in commit messages and the PR description (template: `.github/pull_request_template.md`). They don't edit `ROADMAP.md` or this file: the maintainer ticks roadmap items after merge and records decisions flagged in PRs.
+- `AGENTS.md` is the canonical agent instruction file, so agents other than Claude find it too. `CLAUDE.md` imports it.
+- The maintainer's project-management workspace lives in `pm/`, and agents don't read it.
+
+**Why:**
+- Independent review catches what the author misses.
+- Editing shared files like the roadmap and decision log in parallel PRs causes merge conflicts.
+- Commit and PR history is the natural record of the work.
+- Agents should work only from issues, not from the maintainer's planning notes.
+
+**Consequences:** All agents may post through one GitHub account, which can't formally approve its own PRs, so review verdicts are labels plus comments.
