@@ -66,4 +66,5 @@ All PRs must include tests for new behaviour, and all existing tests must pass.
 ## Who does what
 
 - **Maintainer + project-manager agent:** keep `ROADMAP.md` and `docs/decisions.md` up to date. Turn roadmap items into issues. Add `agent-ready` when an issue is fully specified and its dependencies are merged. Review and merge PRs.
+  The project-manager to-do list and log live in [project-management.md](project-management.md).
 - **Implementing agents:** follow this document and the per-package `CLAUDE.md`.
