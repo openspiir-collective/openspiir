@@ -10,6 +10,7 @@ The project-manager agent's to-do list and running log. **Only the maintainer an
 - Keep the roadmap ↔ issue mapping current: once an item has an issue, add its number to the item in `ROADMAP.md`, e.g. `**B2. Hoplite config** (#31)`.
 - Record project-level decisions in `decisions.md` as they're made, and commit as we go.
 - Remove ⏸ markers and open decisions from `ROADMAP.md` when they're resolved.
+- **Issue permissions:** the PM may close and update issues opened by the maintainer or by agents. Issues and PRs opened by other humans are left to the maintainer, e.g. #29. Flag them to the maintainer instead.
 
 ## Pending actions
 
@@ -20,7 +21,7 @@ Tick an action when it's done; add new ones at the bottom.
 - [ ] **Create labels:** `agent-ready`, `in-progress`, `area:backend`, `area:web`, `area:ml`, `area:selfhost`, `area:docs`, `needs-review`.
 - [ ] **Create issues for every roadmap item:** CI1, B2–B9, D1–D7, K1–K6, M1–M3, F2–F5, W1–W12. Area labels: M items → `area:ml` (M2 touches the backend, so it gets `area:backend`); B4, B5, W2 and CI1 → `area:selfhost`; other B, D, K and F items → `area:backend`; W items → `area:web`. Add the issue numbers to `ROADMAP.md`.
 - [ ] **Add `agent-ready` to the first issues:** CI1, B2, B9 and W1 have no unmerged dependencies (B2 and B9 are both `area:backend`, so only one at a time). B4 needs B9 (Java 25) and shares `area:selfhost` with CI1, so it waits for both.
-- [ ] **Triage the old epics** (proposed; maintainer to confirm):
+- [ ] **Triage the old epics** (approved; the PM may close and update these):
   - Close #2 (app) and #20 (infrastructure) as paused, linking to `decisions.md`.
   - Close #4 (server) as replaced by the roadmap issues.
   - Keep #1 (website) and #5 (Spiir import) open as umbrella issues, with a comment linking their roadmap items.
@@ -38,3 +39,4 @@ Tick an action when it's done; add new ones at the bottom.
 - **2026-11-11:** Backend decisions: plain JDBC, session cookies, GraphQL kept, Java 25. Categorization decisions: pipeline order, merchant keys, transfer detection, splitting delayed, category kinds. Added roadmap phase K. Machine learning under discussion.
 - **2026-11-11:** Decided on an optional Python ML categorizer service as a playground. Added roadmap items M1–M3 and the `area:ml` label.
 - **2026-11-11:** The ML stack is left to the maintainer and a specialist. M1 is blocked until it's decided.
+- **2026-11-11:** Maintainer approved the epic triage. The PM may close and update the maintainer's and agents' issues, but not issues from other humans.
